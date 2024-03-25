@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-th-fragment="layout(titrePage, pageComponents, additionalResources)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title data-th-replace="${titrePage}"></title>
+    <link rel="stylesheet" href="css/general.css">
+    <th:block data-th-replace="${additionalResources} ?: ~{}"></th:block>
+</head>
+<body>
+<div data-th-replace="~{fragments/fragment-head :: fragm-head}"></div>
+<main data-th-replace="${pageComponents} ?: ~{}"></main>
+<p>ku ku</p>
+
+<div data-th-replace="~{fragments/fragment-footer :: fragm-footer}"></div>
+</body>
+</html>
