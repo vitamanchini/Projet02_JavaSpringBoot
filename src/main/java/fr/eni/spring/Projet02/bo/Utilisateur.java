@@ -17,8 +17,10 @@ public class Utilisateur implements Serializable {
     @NotBlank
     private String motDePasse;
     @Min(value = 0)
-    int credit;
-    boolean admin;
+    private int credit;
+    private boolean admin;
+    @NotBlank
+    private Adresse adresse;
 
     public Utilisateur() {
     }
@@ -29,7 +31,7 @@ public class Utilisateur implements Serializable {
         this.admin = admin;
     }
 
-    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, int credit, boolean admin) {
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String motDePasse, int credit, boolean admin, Adresse adresse) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -38,6 +40,7 @@ public class Utilisateur implements Serializable {
         this.motDePasse = motDePasse;
         this.credit = credit;
         this.admin = admin;
+        this.adresse=adresse;
     }
 
     public String getPseudo() {
@@ -104,6 +107,14 @@ public class Utilisateur implements Serializable {
         this.admin = admin;
     }
 
+    public Adresse getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +
@@ -111,6 +122,7 @@ public class Utilisateur implements Serializable {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
+                ", adresse='" + adresse + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", credit=" + credit +
                 ", admin=" + admin +
@@ -129,6 +141,6 @@ public class Utilisateur implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pseudo, nom, prenom, email, telephone, motDePasse, credit, admin);
+        return Objects.hash(pseudo, nom, prenom, email, telephone, motDePasse, credit, admin, adresse);
     }
 }
