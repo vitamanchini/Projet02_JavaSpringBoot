@@ -1,0 +1,33 @@
+<main xmlns:th="http://www.thymeleaf.org" data-th-fragment="fragm-list-encheres">
+    <section>
+        <form action="/" method="get">
+            <label for="search" data-th-text="#{fragment-list-encheres.filter.name}"></label>
+            <input type="search" name="search" id="search">
+            <label for="categories" data-th-text="#{fragment-list-encheres.categories}"></label>
+            <select name="categories" id="categories">
+                <option data-th-text="#{fragment-list-encheres.categories.it}" data-th-value="${2}"></option>
+                <option data-th-text="#{fragment-list-encheres.categories.furniture}" data-th-value="${1}"></option>
+                <option data-th-text="#{fragment-list-encheres.categories.sport-hobbies}" data-th-value="${3}"></option>
+                <option data-th-text="#{fragment-list-encheres.categories.clothes}" data-th-value="${4}"></option>
+            </select>
+            <button type="submit" data-th-text="#{fragment-list-encheres.search}"></button>
+        </form>
+    </section>
+    <section data-th-object="${articleAVendre}">
+        <article>
+            <img src="" alt="" srcset="">
+            <h3 data-th-text="#{fragment-list-encheres.item.title}"></h3>
+            <p data-th-text="#{fragment-list-encheres.item.price}"></p>
+            <p data-th-text="#{fragment-list-encheres.item.final-date}"></p>
+            <p data-th-text="#{fragment-list-encheres.item.seller}"></p>
+        </article>
+    </section>
+</main>
+
+<!--<article data-th-each="item : ${articles}">-->
+<!--    <img src="" alt="" srcset="">-->
+<!--    <h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + *{item.nom}"></h3>-->
+<!--    <p data-th-text="#{fragment-list-encheres.item.price} + ': ' + *{item.prixVente}"></p>-->
+<!--    <p data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + *{item.dateFinEncheres}"></p>-->
+<!--    <p data-th-text="#{fragment-list-encheres.item.seller} + ': ' + *{vendeur+++++}"></p>-->
+<!--</article>-->

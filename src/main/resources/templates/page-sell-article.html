@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
+                                                                                    pageComponents=~{::main},
+                                                                                    additionalResources=~{})}">
+
+<head>
+    <title data-th-text="#{page-sell-article.title}"></title>
+</head>
+<body>
+    <main>
+        <aside>
+            <img src="">
+        </aside>
+        <form action="" method="post"data-th-object="${article}">
+            <section>
+                <label for="nom" data-th-text="#{page-sell-article.form.name}"></label>
+                <input type="text" name="nom" id="nom">
+                <label for="description" data-th-text="#{page-sell-article.form.decription}"></label>
+                <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                <label for="categorie" data-th-text="#{page-sell-article.form.category}"></label>
+                <select name="categorie" id="categorie" data-th-each="cat : ${categoryList}">
+                    <option data-th-text="${cat.nom}" data-th-value="${cat.id}"></option>
+                </select>
+                <label for="photo" data-th-text="#{page-sell-article.form.photo}"></label>
+                <input type="file" name="photo" id="photo">
+                <label for="prix" data-th-text="#{page-sell-article.form.price}"></label>
+                <input type="number" name="prix" id="prix">
+                <label for="debutEnchere" data-th-text="#{page-sell-article.form.start-date}"></label>
+                <input type="date" name="debutEnchere" id="debutEnchere">
+                <label for="finEnchere" data-th-text="#{page-sell-article.form.end-date}"></label>
+                <input type="date" name="finEnchere" id="finEnchere">
+
+                <form>
+                    <label for="rue" data-th-text="#{page-sell-article.form.street}"></label>
+                    <input type="text" name="rue" id="rue">
+                    <label for="code" data-th-text="#{page-sell-article.form.code}"></label>
+                    <input type="text" name="code" id="code">
+                    <label for="ville" data-th-text="#{page-sell-article.form.city}"></label>
+                    <input type="text" name="ville" id="ville">
+                </form>
+
+            </section>
+
+            <button type="submit"></button>
+            <button type="reset"></button>
+        </form>
+        <aside></aside>
+    </main>
+</body>

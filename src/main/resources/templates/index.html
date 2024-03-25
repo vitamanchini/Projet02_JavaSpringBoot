@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout-demo(titlePage=~{::title},
+<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
                                                                                     pageComponents=~{::main},
                                                                                     additionalResources=~{})}">
 
@@ -10,9 +10,7 @@
 
 <body>
 
-<main>
-    <h1>There is a movie librarie</h1>
-</main>
+    <main data-th-replace="~{fragments/fragment-list-encheres :: fragm-list-encheres}"></main>
 </body>
 
 </html>
