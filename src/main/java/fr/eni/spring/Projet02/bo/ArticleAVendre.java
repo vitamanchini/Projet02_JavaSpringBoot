@@ -179,11 +179,11 @@ public class ArticleAVendre implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArticleAVendre that = (ArticleAVendre) o;
-        return id == that.id && statu == that.statu && prixInitial == that.prixInitial && prixVente == that.prixVente && Objects.equals(nom, that.nom) && Objects.equals(description, that.description) && Objects.equals(photo, that.photo) && Objects.equals(dateDebutEncheres, that.dateDebutEncheres) && Objects.equals(dateFinEncheres, that.dateFinEncheres) && Objects.equals(retrait, that.retrait) && Objects.equals(categorie, that.categorie) && Objects.equals(vendeur, that.vendeur);
+        return prixInitial == that.prixInitial && Objects.equals(nom, that.nom) && Objects.equals(dateDebutEncheres, that.dateDebutEncheres) && Objects.equals(dateFinEncheres, that.dateFinEncheres) && Objects.equals(categorie, that.categorie) && Objects.equals(vendeur, that.vendeur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nom, description, photo, dateDebutEncheres, dateFinEncheres, statu, prixInitial, prixVente, retrait, categorie, vendeur);
+        return Objects.hash(nom,dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, retrait, categorie, vendeur);
     }
 }

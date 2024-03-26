@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public class Adresse implements Serializable {
     private static final long serialVersionUID = 1L;
-    @NotNull
     private long id;
     private String complement;
     @NotBlank
@@ -81,13 +80,21 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        return "Adresse{" +
-                "id = '" + id + '\'' +
-                ", complement='" + complement + '\'' +
-                ", rue='" + rue + '\'' +
-                ", codePostal='" + codePostal + '\'' +
-                ", ville='" + ville + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append("Adresse : ");
+        builder.append("id = ");
+        builder.append(id);
+        if(complement!=null){
+            builder.append("Complement = ");
+            builder.append(complement);
+        }
+        builder.append("rue = ");
+        builder.append(rue);
+        builder.append("code postal = ");
+        builder.append(codePostal);
+        builder.append("ville = ");
+        builder.append(ville);
+        return builder.toString();
     }
 
     @Override
@@ -95,11 +102,11 @@ public class Adresse implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Adresse adresse = (Adresse) o;
-        return id == adresse.id && Objects.equals(complement, adresse.complement) && Objects.equals(rue, adresse.rue) && Objects.equals(codePostal, adresse.codePostal) && Objects.equals(ville, adresse.ville);
+        return id == adresse.id && Objects.equals(rue, adresse.rue) && Objects.equals(codePostal, adresse.codePostal) && Objects.equals(ville, adresse.ville);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, complement, rue, codePostal, ville);
+        return Objects.hash(id, rue, codePostal, ville);
     }
 }

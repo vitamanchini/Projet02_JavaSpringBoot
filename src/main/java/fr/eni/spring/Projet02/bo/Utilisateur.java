@@ -12,6 +12,7 @@ public class Utilisateur implements Serializable {
     private String pseudo;
     private String nom;
     private String prenom;
+    @NotBlank
     private String email;
     private String telephone;
     @NotBlank
@@ -141,6 +142,6 @@ public class Utilisateur implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pseudo, nom, prenom, email, telephone, motDePasse, credit, admin, adresse);
+        return Objects.hash(pseudo, email);
     }
 }
