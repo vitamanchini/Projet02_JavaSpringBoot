@@ -1,0 +1,28 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header li {
+    list-style: none;
+    display: inline-block;
+}
+
+footer{
+    position: static;
+    margin-top: 50px;
+    background-color: tomato;
+    color: white;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+}
+
+@media screen and (min-width: 1300px){
+    body {
+        width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

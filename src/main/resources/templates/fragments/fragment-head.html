@@ -1,11 +1,25 @@
 <header xmlns:th="http://www.thymeleaf.org" data-th-fragment="fragm-head">
-    <a data-th-href="@{/main}">
-    <h1 data-th-text="#{fragment-head.main.title}"></h1>
+    <a data-th-href="@{/accueil}">
+        <h1 data-th-text="#{fragment-head.main.title}"></h1>
     </a>
-    <a data-th-href="@{/acceuil}" data-th-text="#{fragment-head.main.articles-list}"></a>
-    <a data-th-href="@{/profil/vendre}" data-th-text="#{fragment-head.main.sell}"></a>
-    <a data-th-href="@{/profil}" data-th-text="#{fragment-head.main.profile}"></a>
-    <a data-th-href="@{/acceuil/deconection}" data-th-text="#{fragment-head.main.disconnection}"></a>
-    <a data-th-href="@{/acceuil/creer-compte}" data-th-text="#{fragment-head.main.signin}"></a>
-    <a data-th-href="@{/acceuil/connection}" data-th-text="#{fragment-head.main.login}"></a>
+    <nav>
+        <ul>
+            <li data-th-if="${#authorization.expression('isAuthenticated()')}">
+                <a data-th-href="@{/accueil}" data-th-text="#{fragment-head.main.articles-list}"></a>
+            </li>
+            <li data-th-if="${#authorization.expression('isAuthenticated()')}">
+                <a data-th-href="@{/profil/vendre}" data-th-text="#{fragment-head.main.sell}"></a>
+            </li>
+            <li data-th-if="${#authorization.expression('isAuthenticated()')}">
+                <a data-th-href="@{/profil}" data-th-text="#{fragment-head.main.profile}"></a>
+            </li>
+            <li data-th-if="${#authorization.expression('isAuthenticated()')}">
+                <a data-th-href="@{/acceuil/deconection}" data-th-text="#{fragment-head.main.disconnection}"></a>
+            </li>
+            <li data-th-if="${!#authorization.expression('isAuthenticated()')}">
+                <a href="/connection" data-th-text="#{fragment-head.main.login}"></a>
+            </li>
+        </ul>
+    </nav>
+
 </header>

@@ -33,9 +33,9 @@ public class EncheresSecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             auth
-                    .requestMatchers(HttpMethod.GET, "/").permitAll()
-                    .requestMatchers(HttpMethod.GET,"/").permitAll()
-                    .requestMatchers("/").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/accueil/creer-compte").permitAll()
+                    .requestMatchers(HttpMethod.GET,"/accueil/*").permitAll()
+                    .requestMatchers("/*").permitAll()
                     .requestMatchers("/css/*").permitAll()
                     .requestMatchers("/images/*").permitAll()
                     .anyRequest().authenticated();
