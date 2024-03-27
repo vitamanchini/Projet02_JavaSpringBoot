@@ -1,0 +1,40 @@
+main {
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+}
+form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+form div{
+    display: flex;
+    flex-direction: column;
+
+}
+form div label{
+    margin-top: 2vh;
+}
+section {
+    display: flex;
+    flex-wrap: wrap;
+}
+article {
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid tomato;
+}
+section article img{
+    width: 100px;
+    height: 100px;
+}
+#recerche{
+    height: 40px;
+    width: 200px;
+    background-color: tomato;
+    color: white;
+    text-align: center;
+}
+

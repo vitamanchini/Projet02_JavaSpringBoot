@@ -39,12 +39,24 @@ public class EncheresSecurityConfig {
                             .anyRequest().authenticated();
                 });
 
+
                 http.formLogin(form ->{
                     form
                             .loginPage("/login").permitAll()
                             .defaultSuccessUrl("/")
                             .permitAll();
                         });
+
+        http.authorizeHttpRequests(auth -> {
+            auth
+                    .requestMatchers(HttpMethod.GET, "/accueil/creer-compte").permitAll()
+                    .requestMatchers(HttpMethod.GET,"/accueil/*").permitAll()
+                    .requestMatchers("/*").permitAll()
+                    .requestMatchers("/css/*").permitAll()
+                    .requestMatchers("/images/*").permitAll()
+                    .anyRequest().authenticated();
+        });
+
 
                 http.logout(logout ->{
                     logout
