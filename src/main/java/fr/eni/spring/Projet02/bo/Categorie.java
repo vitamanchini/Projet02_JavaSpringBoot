@@ -18,6 +18,10 @@ public class Categorie implements Serializable {
         this.libelle = libelle;
     }
 
+    public Categorie() {
+
+    }
+
     public long getId() {
         return id;
     }

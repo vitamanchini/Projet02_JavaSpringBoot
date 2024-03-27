@@ -51,14 +51,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         public Utilisateur mapRow(ResultSet rs, int rowNum) throws SQLException {
             Utilisateur u = new Utilisateur();
             u.setPseudo(rs.getString("pseudo"));
-//            u.setEmail(rs.getString("email"));
-//            u.setNom(rs.getString("nom"));
-//            u.setPrenom(rs.getString("prenom"));
+            u.setEmail(rs.getString("email"));
+            u.setNom(rs.getString("nom"));
+            u.setPrenom(rs.getString("prenom"));
             u.setMotDePasse(rs.getString("mot_de_passe"));
-            u.setAdmin(rs.getBoolean("administrateur"));
-//            Adresse adresse = new Adresse();
-////            Adresse.setId(rs.getLong("id"));
-//            u.setAdresse(adresse);
+            u.setAdmin(rs.getBoolean("admin"));
+            Adresse adresse = new Adresse();
+            adresse.setId(rs.getLong("id"));
+            u.setAdresse(adresse);
             return u;
         }
     }
