@@ -8,6 +8,7 @@ import fr.eni.spring.Projet02.bo.Utilisateur;
 import fr.eni.spring.Projet02.dal.ArticleAVendreDAO;
 import fr.eni.spring.Projet02.dal.CategorieDAO;
 import fr.eni.spring.Projet02.dal.UtilisateurDAO;
+import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class AccueilServiceImpl implements AccueilService{
 
     @Override
     public List<ArticleAVendre> findAll() {
-        return articleAVendreDAO.findAll();
+        return articleAVendreDAO.readAll();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class AccueilServiceImpl implements AccueilService{
     }
     @Override
     public Utilisateur test(String pseudo){
-        if (pseudo !=)
+
         return utilisateurDAO.read(pseudo);
     }
 
@@ -73,34 +74,54 @@ public class AccueilServiceImpl implements AccueilService{
 
     private boolean validateUser(Utilisateur u, BusinessException be) {
         if (u == null){
-            be.add(BusinessException."grrrr");
-        }
+            be.add(BusinessCode.VALIDATION_USER_NULL);
+            return false;
+        } else
+            return true;
     }
 
     private boolean validatePseudo(String pseudo, BusinessException be) {
+
+        if (pseudo.isBlank() || pseudo == null){
+            be.add(BusinessCode.VALIDATION_USER_PSEUDO_BLANK);
+            return false;
+        }
+        return true;
     }
 
     private boolean validatePseudoUnicity(Utilisateur u, BusinessException be) {
+
+//        if(utilisateurDAO.read(u.getPseudo()))
+        return true;
     }
 
     private boolean validateNom(String nom, BusinessException be) {
+
+        return true;
     }
 
     private boolean validatePrenom(String prenom, BusinessException be) {
+
+        return true;
     }
 
     private boolean validateEmail(String email, BusinessException be) {
+        return true;
     }
 
     private boolean validateEmailUnicity(String email, BusinessException be) {
+        return true;
     }
 
     private boolean validateTelephone(String telephone, BusinessException be) {
+        return true;
     }
 
     private boolean validatePassword(String motDePasse, BusinessException be) {
+        return true;
     }
 
     private boolean validateAdresse(Adresse adresse, BusinessException be) {
+        return true;
     }
 }

@@ -44,6 +44,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
     }
 
+    @Override
+    public boolean findPseudo(String ps) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("pseudo",ps);
+//        if ()
+        return true;
+    }
+
 
     class UtilisateurRowMapper implements RowMapper<Utilisateur> {
 

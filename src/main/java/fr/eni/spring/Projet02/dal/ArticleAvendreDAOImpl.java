@@ -38,7 +38,7 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("prix_initial",articleAVendre.getPrixInitial());
         namedParameters.addValue("id_utilisateur",articleAVendre.getVendeur().getPseudo());
         namedParameters.addValue("no_categorie",articleAVendre.getCategorie().getId());
-        namedParameters.addValue("no_adresse_retrait",articleAVendre.getVendeur().getAdresse().getId());
+        namedParameters.addValue("no_adresse_retrait",articleAVendre.getRetrait().getId());
 
 
         jdbcTemplate.update(INSERT,namedParameters,keyHolder);
@@ -80,7 +80,8 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
             categorie.setId(rs.getLong("no_categorie"));
             a.setCategorie(categorie);
             Adresse adresse = new Adresse();
-
+            adresse.setId(rs.getInt("no_adresse_retrait"));
+            a.setRetrait(adresse);
             return a;
         }
     }
