@@ -22,6 +22,7 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
     private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:id, :nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
     private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
     private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE";
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -52,26 +53,26 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
     public ArticleAVendre read(long id) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("no_article", id);
-        return jdbcTemplate.queryForObject(FIND_BY_ID,namedParameters,new FilmRowMapper());
+        return jdbcTemplate.queryForObject(FIND_BY_ID,namedParameters,new ArticleRowMapper());
     }
 
     @Override
     public List<ArticleAVendre> readAll() {
-        return jdbcTemplate.query(FIND_ALL,new FilmRowMapper());
+        return jdbcTemplate.query(FIND_ALL,new ArticleRowMapper());
     }
 
 
-    class FilmRowMapper implements RowMapper<ArticleAVendre> {
+    class ArticleRowMapper implements RowMapper<ArticleAVendre> {
 
         @Override
         public ArticleAVendre mapRow(ResultSet rs, int rowNum) throws SQLException {
             ArticleAVendre a = new ArticleAVendre();
-            a.setId(rs.getLong("no_article"));
+            a.setId(rs.getInt("no_article"));
             a.setNom(rs.getString("nom_article"));
             a.setDescription(rs.getString("description"));
             a.setPhoto(rs.getString("photo"));
-            a.setDateDebutEncheres(LocalDate.ofEpochDay(rs.getLong("date_debut_encheres")));
-            a.setDateFinEncheres(LocalDate.ofEpochDay(rs.getLong("date_fin_encheres")));
+            a.setDateDebutEncheres((rs.getDate("date_debut_encheres")).toLocalDate());
+            a.setDateFinEncheres((rs.getDate("date_fin_encheres")).toLocalDate());
             a.setPrixInitial(rs.getInt("prix_initial"));
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.setPseudo(rs.getString("id_utilisateur"));
@@ -80,6 +81,8 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
             categorie.setId(rs.getLong("no_categorie"));
             a.setCategorie(categorie);
             Adresse adresse = new Adresse();
+            adresse.setId(rs.getLong("no_adresse_retrait"));
+            a.setRetrait(adresse);
 
             return a;
         }
