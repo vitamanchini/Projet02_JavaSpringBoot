@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
+                                                                                    pageComponents=~{::main},
+                                                                                    additionalResources=~{:: #ressources-css})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title data-th-text="#{login.title}"></title>
+    <th:block id="ressources-css">
+        <link rel="stylesheet" data-th-href="@{/css/general.css}">
+        <link rel="stylesheet" data-th-href="@{/css/login.css}">
+    </th:block>
+</head>
+
+<body>
+    <main>
+        <form th:action="@{/login}" method="post">
+
+            <div th:if="${param.error}" data-th-text="#{login.error}"></div>
+            <div th:if="${param.logout}" data-th-text="#{login.logout}"></div>
+            <ul>
+                <li>
+                    <label data-th-text="#{login.username}"></label>
+                    <input name="username"/>
+
+                </li>
+                <li>
+                    <label data-th-text="#{login.pwd}"></label>
+                    <input type="password" name="password"/>
+
+                </li>
+                <li>
+                    <button type="submit" data-th-text="#{login.button}"/>
+                    <a href="/MdpOublie" data-th-text="#{login.mdpOublie}"/>
+                </li>
+                <li>
+                    <a id="Inscription-button" href="/Inscription" data-th-text="#{login.inscription}"/>
+                </li>
+            </ul>
+        </form>
+    </main>
+</body>
+
+</html>

@@ -3,9 +3,7 @@ package fr.eni.spring.Projet02.controller.security;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.Utilisateur;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -31,10 +29,10 @@ public class LoginController {
     }
 
     @GetMapping("/session")
-    public String chargerMembreEnSession(@ModelAttribute("utilisateurEnSession") Utilisateur utilisateurEnSession,
+    public String chargerUtilisateurEnSession(@ModelAttribute("utilisateurEnSession") Utilisateur utilisateurEnSession,
                                          Principal principal) {
-        String email = principal.getName();
-        Utilisateur aCharger = service.charger(email);
+        String pseudo = principal.getName();
+        Utilisateur aCharger = service.charger(pseudo);
         if (aCharger != null) {
             utilisateurEnSession.setNom(aCharger.getNom());
             utilisateurEnSession.setPrenom(aCharger.getPrenom());
@@ -50,6 +48,6 @@ public class LoginController {
         }
         System.out.println(utilisateurEnSession);
 
-        return "redirect:/accueil";
+        return "redirect:/index";
     }
 }
