@@ -16,7 +16,7 @@ import java.util.List;
 public class AccueilDAOImpl implements AccueilDAO{
 
     private static final String FIND_ALL = "SELECT no_article,nom_article,date_fin_encheres,prix_vente, u.nom, u.prenom" +
-            " FROM ARTICLES_A_VENDRE a INNER JOIN UTILISATEURS u ON a.id_utilisateur=u.pseudo";
+            " FROM ARTICLES_A_VENDRE a INNER JOIN UTILISATEURS u ON a.id_utilisateur=u.pseudo ";
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
