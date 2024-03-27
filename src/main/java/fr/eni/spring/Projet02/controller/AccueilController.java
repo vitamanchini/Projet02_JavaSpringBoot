@@ -23,7 +23,7 @@ public class AccueilController {
     private ContexteService contexteService;
     private AccueilService accueilService;
 
-    public AccueilController(ContexteService contexteService, @Qualifier("Accueil") AccueilService accueilService) {
+    public AccueilController(ContexteService contexteService, AccueilService accueilService) {
         this.contexteService = contexteService;
         this.accueilService = accueilService;
     }
@@ -35,6 +35,7 @@ public class AccueilController {
     public String accueilPage(@ModelAttribute("articleAVendre")ArticleAVendre lot, Model model){
         List<ArticleAVendre> lots= accueilService.findAll();
         model.addAttribute("articleAVendre", lots);
+//        System.out.println(contexteService.charger("coach_titi"));
         return "index";
     }
 

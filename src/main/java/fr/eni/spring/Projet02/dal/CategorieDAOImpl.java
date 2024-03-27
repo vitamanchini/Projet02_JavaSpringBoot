@@ -24,6 +24,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 
     @Override
     public List<Categorie> findAll() {
-        return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Categorie.class));
+        return null;
+//        return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Categorie.class));
     }
 }

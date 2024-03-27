@@ -15,7 +15,8 @@ import java.sql.SQLException;
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 
     private static final String FIND_BY_PSEUDO = "SELECT pseudo,mot_de_passe,administrateur FROM UTILISATEURS WHERE pseudo = :pseudo";
-
+    private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo,nom,prenom,email,telephone,mot_de_passe,credit,administrateur,no_adresse) " +
+            "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -23,24 +24,41 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     public Utilisateur read(String pseudo) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo",pseudo);
-        return jdbcTemplate.queryForObject(FIND_BY_PSEUDO,namedParameters,new MembreRowMapper());
+        return jdbcTemplate.queryForObject(FIND_BY_PSEUDO,namedParameters,new UtilisateurRowMapper());
+    }
+
+    @Override
+    public void create(Utilisateur u) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("pseudo",u.getPseudo());
+        parameterSource.addValue("nom", u.getNom());
+        parameterSource.addValue("prenom", u.getPrenom());
+        parameterSource.addValue("email", u.getEmail());
+        parameterSource.addValue("telephone", u.getTelephone());
+        parameterSource.addValue("mot_de_passe", u.getMotDePasse());
+        parameterSource.addValue("credit", u.getCredit());
+        parameterSource.addValue("administrateur", u.isAdmin());
+        parameterSource.addValue("no_adresse", u.getAdresse().getId());
+
+        jdbcTemplate.update(INSERT, parameterSource);
+
     }
 
 
-    class MembreRowMapper implements RowMapper<Utilisateur> {
+    class UtilisateurRowMapper implements RowMapper<Utilisateur> {
 
         @Override
         public Utilisateur mapRow(ResultSet rs, int rowNum) throws SQLException {
             Utilisateur u = new Utilisateur();
             u.setPseudo(rs.getString("pseudo"));
-            u.setEmail(rs.getString("email"));
-            u.setNom(rs.getString("nom"));
-            u.setPrenom(rs.getString("prenom"));
+//            u.setEmail(rs.getString("email"));
+//            u.setNom(rs.getString("nom"));
+//            u.setPrenom(rs.getString("prenom"));
             u.setMotDePasse(rs.getString("mot_de_passe"));
-            u.setAdmin(rs.getBoolean("admin"));
-            Adresse adresse = new Adresse();
-//            Adresse.setId(rs.getLong("id"));
-            u.setAdresse(adresse);
+            u.setAdmin(rs.getBoolean("administrateur"));
+//            Adresse adresse = new Adresse();
+////            Adresse.setId(rs.getLong("id"));
+//            u.setAdresse(adresse);
             return u;
         }
     }

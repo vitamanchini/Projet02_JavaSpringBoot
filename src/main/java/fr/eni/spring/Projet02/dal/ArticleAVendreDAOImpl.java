@@ -12,18 +12,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository("accDAO")
-public class AccueilDAOImpl implements AccueilDAO{
+@Repository
+public class ArticleAVendreDAOImpl implements ArticleAVendreDAO{
 
     private static final String FIND_ALL = "SELECT no_article,nom_article,date_fin_encheres,prix_vente, u.nom, u.prenom" +
-            " FROM ARTICLES_A_VENDRE a INNER JOIN UTILISATEURS u ON a.id_utilisateur=u.pseudo ";
+            " FROM ARTICLES_A_VENDRE a INNER JOIN UTILISATEURS u ON a.id_utilisateur=u.pseudo";
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 @Override
     public List<ArticleAVendre> findAll() {
         MapSqlParameterSource msps = new MapSqlParameterSource();
-    System.out.println("DAL");
         return namedParameterJdbcTemplate.query(FIND_ALL, new MiniEnchereRowMapper());
     }
 

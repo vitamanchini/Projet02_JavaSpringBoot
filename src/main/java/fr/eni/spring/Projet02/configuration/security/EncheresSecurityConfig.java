@@ -40,34 +40,23 @@ public class EncheresSecurityConfig {
                 });
 
 
-                http.formLogin(form ->{
-                    form
-                            .loginPage("/login").permitAll()
-                            .defaultSuccessUrl("/")
-                            .permitAll();
-                        });
-
-        http.authorizeHttpRequests(auth -> {
-            auth
-                    .requestMatchers(HttpMethod.GET, "/accueil/creer-compte").permitAll()
-                    .requestMatchers(HttpMethod.GET,"/accueil/*").permitAll()
-                    .requestMatchers("/*").permitAll()
-                    .requestMatchers("/css/*").permitAll()
-                    .requestMatchers("/images/*").permitAll()
-                    .anyRequest().authenticated();
+        http.formLogin(form ->{
+            form
+                    .loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/accueil")
+                    .permitAll();
         });
 
-
-                http.logout(logout ->{
-                    logout
-                            .invalidateHttpSession(true)
-                            .clearAuthentication(true)
-                            .deleteCookies("JSESSIONID")
-                            .logoutUrl("/logout")
-                            .logoutSuccessUrl("/")
-                            .permitAll();
-                        });
-                return http.build();
+        http.logout(logout ->{
+            logout
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/accueil")
+                    .permitAll();
+        });
+        return http.build();
     }
 }
 
