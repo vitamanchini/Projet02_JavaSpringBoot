@@ -23,4 +23,5 @@ public class BusinessCode {
     public static final String VALIDATION_USER_EMAIL_UNICITY = "validation.user.email.unicity";
     public static final String VALIDATION_USER_PHONE = "validation.user.phone";
     public static final String VALIDATION_USER_ADRESSE_NULL = "validation.user.adresse.null";
+    public static final String VALIDATION_USER_ADRESSE_UNKNOWN = "validation.user.adresse.unknown";
 }

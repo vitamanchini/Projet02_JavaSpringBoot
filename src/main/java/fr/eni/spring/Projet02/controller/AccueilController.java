@@ -35,7 +35,6 @@ public class AccueilController {
     public String accueilPage(@ModelAttribute("articleAVendre")ArticleAVendre lot, Model model){
         List<ArticleAVendre> lots= accueilService.findAll();
         model.addAttribute("articleAVendre", lots);
-//        System.out.println(contexteService.charger("coach_titi"));
         return "index";
     }
 
