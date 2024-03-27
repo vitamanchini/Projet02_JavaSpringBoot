@@ -39,7 +39,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             u.setMotDePasse(rs.getString("mot_de_passe"));
             u.setAdmin(rs.getBoolean("admin"));
             Adresse adresse = new Adresse();
-//            Adresse.setId(rs.getLong("id"));
+            adresse.setId(rs.getLong("id"));
             u.setAdresse(adresse);
             return u;
         }
