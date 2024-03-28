@@ -16,4 +16,9 @@ public class AdresseDAOImpl implements AdresseDAO{
     public void create(Adresse a) {
 
     }
+
+    @Override
+    public long findAddress(Adresse a) {
+        return 0;
+    }
 }

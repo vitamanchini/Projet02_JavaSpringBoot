@@ -12,5 +12,4 @@ public interface AccueilService {
     List<ArticleAVendre> filter();
     List<Categorie> findAllCategories();
 
-    Utilisateur test(String pseudo);
 }

@@ -4,6 +4,7 @@ import fr.eni.spring.Projet02.bll.AccueilService;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.ArticleAVendre;
 import fr.eni.spring.Projet02.bo.Categorie;
+import fr.eni.spring.Projet02.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,13 @@ public class AccueilController {
     }
 
     @GetMapping("/filter")
-    public void filterArticles(){
+    public void filterArticles(@ModelAttribute("utilisateurEnSession") Utilisateur u){
 
+    }
 
+    @GetMapping("signin")
+    public String signin(){
+        return "page-new-user";
     }
 
 }

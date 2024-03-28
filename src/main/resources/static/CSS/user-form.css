@@ -1,0 +1,35 @@
+form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    border: 2px solid tomato;
+}
+ul{
+    width: 500px;
+    margin: 15px;
+    padding: 15px;
+    border: 2px solid tomato;
+}
+.label-field{
+    display: inline-flex;
+    width: 200px;
+}
+
+li {
+    list-style: none;
+    padding: 10px;
+}
+#info-fields {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 2px solid tomato;
+    margin: 10px;
+}
+#new-user-buttons{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}

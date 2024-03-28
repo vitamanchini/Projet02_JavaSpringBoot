@@ -1,13 +1,35 @@
+*{
+    font-family: fira sans, sans-serif;
+    font-size: 5fr;
+    margin: 0;
+    padding: 0;
+}
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+h1 {
+    font-size: 3.5rem;
+}
+h2{
+    font-size: 2rem;
+    display: flex;
+    justify-self: center;
+}
 header li {
     list-style: none;
     display: inline-block;
 }
-
+button{
+    height: 50px;
+    width: 200px;
+    background-color: tomato;
+    margin: 5%;
+    color: white;
+    font-size: inherit;
+}
 footer{
     position: static;
     margin-top: 50px;

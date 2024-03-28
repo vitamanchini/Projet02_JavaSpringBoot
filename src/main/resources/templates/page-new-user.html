@@ -5,16 +5,18 @@
                                                                                     additionalResources=~{::#css})}">
 
 <head>
-    <title data-th-text="#{page-accueil.title}"></title>
+    <title data-th-text="#{page-new-user.title}"></title>
     <th:block id="css">
-        <link rel="stylesheet" data-th-href="@{/css/accueil-page.css}">
+        <link rel="stylesheet" data-th-href="@{/css/user-form.css}">
     </th:block>
 </head>
-
 <body>
-<h2 data-th-text="#{page-accueil.title}"></h2>
-<!--<div th:if="${param.error}" data-th-text="#{login.error}"></div>-->
-<main data-th-replace="~{fragments/fragment-list-encheres :: fragm-list-encheres}"></main>
+<main>
+    <h2 data-th-text="#{page-new-user.title}"></h2>
+<!--    <div data-th-replace="~{fragments/errors/fragment-errors :: fragm-errors}"></div>-->
+    <div data-th-replace="~{fragments/fragment-user-form :: fragm-form-user( ~{})}"></div>
+
+</main>
 </body>
 
 </html>
