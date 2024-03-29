@@ -2,6 +2,7 @@ package fr.eni.spring.Projet02.bo;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
 public class Utilisateur implements Serializable {
     private static final long serialVersionUID = 1L;
     @NotBlank
+    @Pattern(regexp = "^[a-z0-9_]{3,15}$")
     private String pseudo;
     private String nom;
     private String prenom;
@@ -16,6 +18,7 @@ public class Utilisateur implements Serializable {
     private String email;
     private String telephone;
     @NotBlank
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,20}$")
     private String motDePasse;
     @Min(value = 0)
     private int credit;

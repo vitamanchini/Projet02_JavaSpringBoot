@@ -1,6 +1,7 @@
 package fr.eni.spring.Projet02.bll;
 
 import fr.eni.spring.Projet02.bo.*;
+import fr.eni.spring.Projet02.dal.AdresseDAO;
 import fr.eni.spring.Projet02.dal.ArticleAVendreDAO;
 import fr.eni.spring.Projet02.dal.CategorieDAO;
 import fr.eni.spring.Projet02.dal.UtilisateurDAO;
@@ -37,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
     private void chargerArticleAvendre(ArticleAVendre articleAVendre) {
         Utilisateur vendeur = UtilisateurDAO.read(articleAVendre.getVendeur().getPseudo());
         ArticleAVendre article = articleAVendreDAO.read(articleAVendre.getId());
-        Adresse adresse = articleAVendreDAO.read(articleAVendre.getRetrait().getId()).getRetrait();
+        Adresse adresse = articleAVendreDAO.read(articleAVendre.getRetrait().getId());
     }
 
     @Override
@@ -61,7 +62,10 @@ public class ArticleServiceImpl implements ArticleService {
             return false;
         }
         try {
-            boolean articleExiste = Boolean.parseBoolean(articleAVendreDAO.read(id));
+            boolean articleExiste = true;
+            if (articleAVendreDAO.read(id)==null){
+                articleExiste = false;
+            }
             if (articleExiste){
                 be.add(BusinessCode.VALIDATION_ARTICLE_UNIQUE);
                 return false;
@@ -128,7 +132,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private boolean validerRetrait(List<Adresse> a, long id, BusinessException be){
-        boolean adresseExiste = Boolean.parseBoolean(adresseDAO.read(id));
+        boolean adresseExiste = true;
+        if (adresseDAO.findById(id)==null){
+            adresseExiste = false;
+        }
         if (!adresseExiste){
             be.add(BusinessCode.VALIDATION_ARTICLE_ADRESSE);
             return false;
@@ -137,7 +144,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private boolean validerCategorie(int id, BusinessException be){
-        boolean categorieExiste = Boolean.parseBoolean(categorieDAO.read(id));
+        boolean categorieExiste = true;
+        if (categorieDAO.read(id)==null){
+            categorieExiste=false;
+        }
         if(!categorieExiste){
             be.add(BusinessCode.VALIDATION_ARTICLE_CATEGORIE);
             return false;
@@ -180,6 +190,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Adresse consulterAdresseParId(long id) {
-        return adresseDAO.read(id);
+        return adresseDAO.findById(id);
     }
 }

@@ -34,6 +34,7 @@ public class EncheresSecurityConfig {
                     auth
                             .requestMatchers("/").permitAll()
                             .requestMatchers("/login").permitAll()
+                            .requestMatchers("/users/signin").permitAll()
                             .requestMatchers("/css/**").permitAll()
                             .requestMatchers("/images/**").permitAll()
                             .anyRequest().authenticated();

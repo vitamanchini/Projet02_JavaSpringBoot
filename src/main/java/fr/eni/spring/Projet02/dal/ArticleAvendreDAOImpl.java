@@ -18,9 +18,13 @@ import java.util.List;
 
 @Repository
 public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
-    private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
-    private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
-    private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE";
+
+    private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres,"+
+            "prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
+    private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+
+            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
+    private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+"" +
+            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE statu_enchere=1";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -36,8 +40,8 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("date_fin_encheres",articleAVendre.getDateFinEncheres());
         namedParameters.addValue("prix_initial",articleAVendre.getPrixInitial());
         namedParameters.addValue("id_utilisateur",articleAVendre.getVendeur().getPseudo());
-        namedParameters.addValue("no_categorie",articleAVendre.getCategorie().getId());
-        namedParameters.addValue("no_adresse_retrait",articleAVendre.getVendeur().getAdresse().getId());
+        namedParameters.addValue("no_categorie", articleAVendre.getCategorie());
+        namedParameters.addValue("no_adresse_retrait",articleAVendre.getRetrait().getId());
 
 
         jdbcTemplate.update(INSERT,namedParameters,keyHolder);
@@ -79,9 +83,8 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
             categorie.setId(rs.getLong("no_categorie"));
             a.setCategorie(categorie);
             Adresse adresse = new Adresse();
-            adresse.setId(rs.getLong("no_adresse_retrait"));
+            adresse.setId(rs.getInt("no_adresse_retrait"));
             a.setRetrait(adresse);
-
             return a;
         }
     }

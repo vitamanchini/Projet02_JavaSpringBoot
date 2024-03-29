@@ -13,7 +13,7 @@ public class Adresse implements Serializable {
     private String complement;
     @NotBlank
     private String rue;
-    @Size(min=6,max=6)
+    @Size(min=5,max=5)
     @NotBlank
     private String codePostal;
     @NotBlank

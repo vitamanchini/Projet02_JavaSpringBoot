@@ -4,9 +4,11 @@ import fr.eni.spring.Projet02.bo.Categorie;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("CatDao")
 public class CategorieDAOImpl implements CategorieDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -21,6 +23,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 
     @Override
     public List<Categorie> findAll() {
-        return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Categorie.class));
+        return null;
+//        return jdbcTemplate.query(FIND_ALL, new BeanPropertyRowMapper<>(Categorie.class));
     }
 }
