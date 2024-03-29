@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/users")
 @SessionAttributes({"utilisateurEnSession", "ListCategories"})
@@ -25,8 +27,8 @@ public class UserController {
     }
 
     @GetMapping("/signin")
-    public String signin(@ModelAttribute("utilisateurEnSession") Utilisateur u, Model model) {
-        if(u.getPseudo() != null){
+    public String signin(Principal p, Model model) {
+        if (p != null && p.getName() != null) {
             return "redirect:/accueil";
         } else {
             model.addAttribute("user", new Utilisateur());
@@ -35,20 +37,25 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public String createUser(@Valid @ModelAttribute("user") Utilisateur u, BindingResult bindingResult) {
+    public String createUser(Principal p, @Valid @ModelAttribute("user") Utilisateur u, BindingResult bindingResult) {
+        if (p != null && p.getName() != null) {
+            return "redirect:/accueil";
 
-        if (!bindingResult.hasErrors()) {
-            try {
-                userService.createNewUser(u);
-                return "redirect:/accueil" + u.getPseudo();
-            } catch (BusinessException be) {
-                be.getClefsExternalisations().forEach(key -> {
-                    ObjectError objectError = new ObjectError("globalError", key);
-                    bindingResult.addError(objectError);
-                });
+        } else {
+            if (!bindingResult.hasErrors()) {
+                try {
+                    userService.createNewUser(u);
+                    return "redirect:/accueil";
+                } catch (BusinessException be) {
+                    be.getClefsExternalisations().forEach(key -> {
+                        ObjectError objectError = new ObjectError("globalError", key);
+                        bindingResult.addError(objectError);
+                    });
+                }
             }
-        }
-        return "signin";
+//            return "redirect:/users/signin";
+            return "page-new-user";
 
+        }
     }
 }

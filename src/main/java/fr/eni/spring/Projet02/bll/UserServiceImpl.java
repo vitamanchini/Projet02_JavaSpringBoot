@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     private boolean validatePseudoUnicity(Utilisateur u, BusinessException be) {
 
-        if (!utilisateurDAO.findPseudo(u.getPseudo())) {
+        if (utilisateurDAO.findPseudo(u.getPseudo())) {
             be.add(BusinessCode.VALIDATION_USER_PSEUDO_UNICITY);
             return false;
         }

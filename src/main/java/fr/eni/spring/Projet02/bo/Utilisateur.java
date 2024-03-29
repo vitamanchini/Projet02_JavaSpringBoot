@@ -23,7 +23,7 @@ public class Utilisateur implements Serializable {
     @Min(value = 0)
     private int credit;
     private boolean admin;
-    @NotBlank
+//    @NotBlank
     private Adresse adresse;
 
     public Utilisateur() {

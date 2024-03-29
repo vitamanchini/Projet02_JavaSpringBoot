@@ -19,8 +19,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private static final String FIND_BY_PSEUDO_MAINPAGE = "SELECT pseudo,nom,prenom FROM UTILISATEURS WHERE pseudo = :pseudo";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo,nom,prenom,email,telephone,mot_de_passe,credit,administrateur,no_adresse) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
-    private static final String FIND_BY_EMAIL = "SELECT email FROM UTILISATEURS WHERE email = :email"; //count
-    private static final String FIND_BY_PSEUDO_BOOL = "SELECT pseudo FROM UTILISATEURS WHERE pseudo = :pseudo"; //count
+    private static final String FIND_BY_EMAIL = "SELECT COUNT(email) FROM UTILISATEURS WHERE email = :email"; //count
+    private static final String FIND_BY_PSEUDO_BOOL = "SELECT COUNT(pseudo) FROM UTILISATEURS WHERE pseudo = :pseudo" ; //count
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -59,7 +59,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo",ps);
         if (jdbcTemplate.queryForObject(FIND_BY_PSEUDO_BOOL,namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class)) != null) {
+                Integer.class) > 0) {
             return true;
         } else return false;
     }
@@ -69,7 +69,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("email",e);
         if (jdbcTemplate.queryForObject(FIND_BY_EMAIL,namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class)) != null) {
+                Integer.class) > 0) {
             return true;
         } else return false;
     }

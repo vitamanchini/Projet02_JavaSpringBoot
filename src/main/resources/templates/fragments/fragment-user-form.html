@@ -1,10 +1,13 @@
 <form xmlns:th="http://www.thymeleaf.org" data-th-fragment="fragm-form-user(action)"
       data-th-action="@{${action}}" data-th-object="${user}" method="post">
+    <div data-th-replace="~{fragments/errors/fragment-errors :: frag-errors}"></div>
+
     <section id="info-fields">
         <ul>
             <li>
                 <label class="label-field" for="pseudo" data-th-text="#{page-new-user.nickname}"></label>
                 <input type="text" name="pseudo" id="pseudo" data-th-field="*{pseudo}"></li>
+            <div data-th-replace="~{fragments/errors/fragment-error :: frag-error('pseudo')}"></div>
             <li>
                 <label class="label-field" for="prenom" data-th-text="#{page-new-user.name}"></label>
                 <input type="text" name="prenom" id="prenom" data-th-field="*{prenom}"></li>
@@ -20,9 +23,7 @@
                 <label class="label-field" for="pswd" data-th-text="#{page-new-user.pswd}"></label>
                 <input type="password" name="pswd" id="pswd" data-th-field="*{motDePasse}">
             </li>
-        </ul>
 
-        <ul>
             <li>
                 <label class="label-field" for="nom" data-th-text="#{page-new-user.surname}"></label>
                 <input type="text" name="nom" id="nom" data-th-field="*{nom}">
@@ -46,7 +47,7 @@
         </ul>
     </section>
     <section id="new-user-buttons">
-        <button type="submit" data-th-text="#{page-new-user.create}"></button>
+        <button type="submit"  data-th-text="#{page-new-user.create}" id="buttonCreateAccount"></button>
         <button type="reset" data-th-text="#{page-new-user.cancel}"></button>
     </section>
 </form>
