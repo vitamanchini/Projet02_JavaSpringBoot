@@ -1,6 +1,5 @@
 package fr.eni.spring.Projet02.bll;
 
-import fr.eni.spring.Projet02.UserService;
 import fr.eni.spring.Projet02.bo.Adresse;
 import fr.eni.spring.Projet02.bo.Utilisateur;
 import fr.eni.spring.Projet02.dal.AdresseDAO;
@@ -121,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean validateEmailUnicity(String email, BusinessException be) {
-        if (!utilisateurDAO.findEmail(email)) {
+        if (utilisateurDAO.findEmail(email)) {
             be.add(BusinessCode.VALIDATION_USER_EMAIL_UNICITY);
             return false;
         }

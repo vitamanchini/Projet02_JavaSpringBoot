@@ -1,12 +1,11 @@
 package fr.eni.spring.Projet02.bo;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.Objects;
 
 public class ArticleAVendre implements Serializable {
@@ -19,10 +18,10 @@ public class ArticleAVendre implements Serializable {
     private String description;
     private String photo;
     @NotNull
-//    @Value(dateDebutEncheres > today)
+    @Future
     private LocalDate dateDebutEncheres;
     @NotNull
-//    @Value(dateFinEncheres > today)
+    @Future
     private LocalDate dateFinEncheres;
     private int statu;
     @NotNull

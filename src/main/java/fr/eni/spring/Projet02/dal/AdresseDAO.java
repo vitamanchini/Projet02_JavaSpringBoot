@@ -7,4 +7,6 @@ public interface AdresseDAO {
     void create(Adresse a);
 
     long findAddress(Adresse a);
+
+    Adresse update(Adresse a);
 }

@@ -1,4 +1,4 @@
-package fr.eni.spring.Projet02;
+package fr.eni.spring.Projet02.bll;
 
 import fr.eni.spring.Projet02.bo.Utilisateur;
 

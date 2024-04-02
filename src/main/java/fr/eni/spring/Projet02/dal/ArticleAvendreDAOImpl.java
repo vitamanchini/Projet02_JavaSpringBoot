@@ -14,19 +14,17 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
-    private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (no_article, nom_article, description, photo," +
-            " date_debut_encheres, date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait)" +
-            " VALUES (:id, :nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
-    private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres," +
-            " date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait " +
-            "FROM ARTICLES_A_VENDRE WHERE no_article= :id";
-    private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, " +
-            "date_fin_encheres, prix_initial, id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE statu_enchere=1";
+
+    private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres,"+
+            "prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
+    private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+
+            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
+    private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+"" +
+            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE statu_enchere=1";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -35,7 +33,6 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
     public void create(ArticleAVendre articleAVendre) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.addValue("no_article",articleAVendre.getId());
         namedParameters.addValue("nom_article",articleAVendre.getNom());
         namedParameters.addValue("description",articleAVendre.getDescription());
         namedParameters.addValue("photo",articleAVendre.getPhoto());
@@ -43,7 +40,7 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("date_fin_encheres",articleAVendre.getDateFinEncheres());
         namedParameters.addValue("prix_initial",articleAVendre.getPrixInitial());
         namedParameters.addValue("id_utilisateur",articleAVendre.getVendeur().getPseudo());
-        namedParameters.addValue("no_categorie",articleAVendre.getCategorie().getId());
+        namedParameters.addValue("no_categorie", articleAVendre.getCategorie());
         namedParameters.addValue("no_adresse_retrait",articleAVendre.getRetrait().getId());
 
 

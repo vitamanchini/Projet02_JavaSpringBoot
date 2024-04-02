@@ -1,6 +1,6 @@
 package fr.eni.spring.Projet02.controller;
 
-import fr.eni.spring.Projet02.UserService;
+import fr.eni.spring.Projet02.bll.UserService;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.Utilisateur;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
