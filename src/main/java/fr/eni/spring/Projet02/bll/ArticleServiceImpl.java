@@ -8,10 +8,12 @@ import fr.eni.spring.Projet02.dal.UtilisateurDAO;
 import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleAVendreDAO articleAVendreDAO;
@@ -36,28 +38,28 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private void chargerArticleAvendre(ArticleAVendre articleAVendre) {
-        Utilisateur vendeur = UtilisateurDAO.read(articleAVendre.getVendeur().getPseudo());
+        Utilisateur vendeur = utilisateurDAO.read(articleAVendre.getVendeur().getPseudo());
         ArticleAVendre article = articleAVendreDAO.read(articleAVendre.getId());
-        Adresse adresse = articleAVendreDAO.read(articleAVendre.getRetrait().getId());
+        Adresse adresse = adresseDAO.findById(articleAVendre.getRetrait().getId());
     }
 
     @Override
-    public void creerArticle(Enchere e) {
+    public void creerArticle(ArticleAVendre a) {
         BusinessException be = new BusinessException();
         boolean isValid = true;
-        isValid &= validerArticle((List<Enchere>) e,e.getArticleAVendre().getId(),be);
-        isValid &= validerNom(e.getArticleAVendre().getNom(),be);
-        isValid &= validerDescription(e.getArticleAVendre().getDescription(),be);
-        isValid &= validerDateDebut(e.getArticleAVendre().getDateDebutEncheres(),be);
-        isValid &= validerDateFin(e.getArticleAVendre().getDateFinEncheres(), e.getArticleAVendre().getDateDebutEncheres(),be);
-        isValid &= validerPrixInitial(e.getMontant(),be);
-        isValid &= validerRetrait((List<Adresse>) e.getArticleAVendre().getRetrait(),e.getArticleAVendre().getRetrait().getId(),be);
-        isValid &= validerCategorie(e.getArticleAVendre().getCategorie(),be);
-        isValid &= validerVendeur(e.getArticleAVendre().getVendeur(),be);
+        isValid &= validerArticle(a, a.getId(), be);
+        isValid &= validerNom(a.getNom(),be);
+        isValid &= validerDescription(a.getDescription(),be);
+        isValid &= validerDateDebut(a.getDateDebutEncheres(),be);
+        isValid &= validerDateFin(a.getDateFinEncheres(), a.getDateDebutEncheres(),be);
+        isValid &= validerPrixInitial(a.getPrixInitial(),be);
+        isValid &= validerRetrait(a.getRetrait().getId(),be);
+        isValid &= validerCategorie(a.getCategorie(),be);
+        isValid &= validerVendeur(a.getVendeur(),be);
     }
 
-    private boolean validerArticle(List<Enchere> e, long id, BusinessException be){
-        if (e == null){
+    private boolean validerArticle(ArticleAVendre a, long id, BusinessException be){
+        if (a == null){
             be.add(BusinessCode.VALIDATION_ARTICLE_NULL);
             return false;
         }
@@ -67,7 +69,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleExiste = false;
             }
             if (articleExiste){
-                be.add(BusinessCode.VALIDATION_ARTICLE_UNIQUE);
+                be.add(BusinessCode.VALIDATION_ARTICLE_UNIQUE); //COUNT
                 return false;
             }
         }catch (DataAccessException de){
@@ -95,11 +97,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     private boolean validerDateDebut(LocalDate dateDebut, BusinessException be){
         LocalDate today = LocalDate.now();
-        Boolean isBefore = today.isBefore(dateDebut);
         if (dateDebut == null){
             be.add(BusinessCode.VALIDATION_ARTICLE_DATE_DEBUT_BLANK);
             return false;
         }
+        boolean isBefore = today.isBefore(dateDebut);
         if (isBefore){
             be.add(BusinessCode.VALIDATION_ARTICLE_DATE_DEBUT_BEFORE);
             return false;
@@ -107,11 +109,11 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
     private boolean validerDateFin(LocalDate dateFin, LocalDate dateDebut, BusinessException be){
-        Boolean isBefore = dateDebut.isBefore(dateFin);
         if (dateFin == null){
             be.add(BusinessCode.VALIDATION_ARTICLE_DATE_FIN_BLANK);
             return false;
         }
+        boolean isBefore = dateDebut.isBefore(dateFin);
         if (isBefore){
             be.add(BusinessCode.VALIDATION_ARTICLE_DATE_FIN_BEFORE);
             return false;
@@ -131,7 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
 
-    private boolean validerRetrait(List<Adresse> a, long id, BusinessException be){
+    private boolean validerRetrait(long id, BusinessException be){
         boolean adresseExiste = true;
         if (adresseDAO.findById(id)==null){
             adresseExiste = false;
@@ -143,9 +145,9 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
 
-    private boolean validerCategorie(int id, BusinessException be){
+    private boolean validerCategorie(Categorie id, BusinessException be){
         boolean categorieExiste = true;
-        if (categorieDAO.read(id)==null){
+        if (categorieDAO.read(id.getId())==null){
             categorieExiste=false;
         }
         if(!categorieExiste){
@@ -161,7 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
             return false;
         }
         try {
-            Utilisateur utilisateur = UtilisateurDAO.read(pseudo.getPseudo());
+            Utilisateur utilisateur = utilisateurDAO.read(pseudo.getPseudo());
             if (pseudo!=utilisateur){
                 be.add(BusinessCode.VALIDATION_ARTICLE_VENDEUR_INCONNU);
                 return false;
@@ -180,7 +182,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Utilisateur consulterVendeurParId(String id) {
-        return UtilisateurDAO.read(id);
+        return utilisateurDAO.read(id);
     }
 
 

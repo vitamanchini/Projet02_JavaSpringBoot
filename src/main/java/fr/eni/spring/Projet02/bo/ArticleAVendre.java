@@ -145,7 +145,7 @@ public class ArticleAVendre implements Serializable {
         this.retrait = retrait;
     }
 
-    public int getCategorie() {
+    public Categorie getCategorie() {
         return categorie;
     }
 

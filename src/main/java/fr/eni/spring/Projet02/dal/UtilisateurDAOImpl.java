@@ -21,6 +21,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
     private static final String FIND_BY_EMAIL = "SELECT email FROM UTILISATEURS WHERE email = :email"; //count
     private static final String FIND_BY_PSEUDO_BOOL = "SELECT pseudo FROM UTILISATEURS WHERE pseudo = :pseudo"; //count
+    private static final String FIND_BY_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ?";
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -72,6 +73,13 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                 new BeanPropertyRowMapper<>(Utilisateur.class)) != null) {
             return true;
         } else return false;
+    }
+
+    @Override
+    public Utilisateur findByAddress(long idAdresse) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("no_adresse",idAdresse);
+        return jdbcTemplate.queryForObject(FIND_BY_ADDRESS,parameterSource,new BeanPropertyRowMapper<>(Utilisateur.class));
     }
 
 

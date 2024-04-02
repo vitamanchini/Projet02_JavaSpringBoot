@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
+                                                                                    pageComponents=~{::main},
+                                                                                    additionalResources=~{:: #ressources-css})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title data-th-text="#{vente.title}"></title>
+    <th:block id="ressources-css">
+        <link rel="stylesheet" data-th-href="@{/css/general.css}">
+        <link rel="stylesheet" data-th-href="@{/css/vente.css}">
+    </th:block>
+</head>
+
+<body>
+<main>
+    <form th:action="@{/vente}" method="post">
+
+        <div th:if="${param.error}" data-th-text="#{vente.error}"></div>
+        <div id="info-photo">
+            <img src="">
+        </div>
+        <div id="info-form">
+            <ul>
+                <li>
+                    <label data-th-text="#{vente.article.nom}"></label>
+                    <input name="article"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.description}"></label>
+                    <input name="description"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.categorie}"></label>
+                    <select data-th-field="*{categorie}">
+                        <option data-th-value="${categorie.getName()}"
+                                data-th-text="#{vente.article.categorie1}">
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.photo}"></label>
+                    <button type="submit" data-th-text="#{vente.article.upload}"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.prix}"></label>
+                    <input name="prix" value="0" min="0"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.date.debut}"></label>
+                    <input type="date" id="start" name="article-start" data-th-value="${today}" data-th-min="${today}" data-th-max="2024-12-31"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.date.fin}"></label>
+                    <input type="date" id="end" name="article-end" data-th-value="${articledebut+1}" data-th-min="${articledebut+1}" data-th-max="2025-01-01"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.adresse}"></label>
+                    <select data-th-field="*{adresse}">
+                        <option data-th-each="adresse : ${adresse}"
+                                data-th-value="${adresse.getAdresse()}"
+                                data-th-text="${adresse.getName()}"
+                                data-th-selected="${adresse.isSelected(adresse)}">
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <button type="submit" data-th-text="#{vente.article.submit}"/>
+                    <button data-th-href="@{/accueil}" data-th-text="#{vente.article.annuler}"/>
+                </li>
+            </ul>
+        </div>
+    </form>
+</main>
+</body>
+
+</html>
