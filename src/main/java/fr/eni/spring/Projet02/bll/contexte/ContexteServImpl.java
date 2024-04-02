@@ -2,6 +2,7 @@ package fr.eni.spring.Projet02.bll.contexte;
 
 import fr.eni.spring.Projet02.bo.Utilisateur;
 import fr.eni.spring.Projet02.dal.UtilisateurDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

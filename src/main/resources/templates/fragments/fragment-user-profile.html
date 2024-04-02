@@ -1,43 +1,43 @@
-<form xmlns:th="http://www.thymeleaf.org" data-th-fragment="fragm-user-profile(action)"
-      data-th-action="@{${action}}" data-th-object="${user}" method="post">
+<form xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-user-profile(action)"
+      data-th-action="@{${action}}" data-th-object="${user}" method="">
     <section id="info-fields">
         <ul>
             <li>
                 <label class="label-field" for="pseudo" data-th-text="#{page-new-user.nickname}"></label>
-                <input type="text" name="pseudo" id="pseudo" data-th-field="*{pseudo}">
+                <input type="text" disabled name="pseudo" id="pseudo" data-th-value="*{pseudo}">
             </li>
             <li>
-                <label class="label-field" for="nom" data-th-text="#{page-new-user.surname}"></label>
-                <input type="text" name="nom" id="nom" data-th-field="*{nom}">
+                <label class="label-field" for="nom" data-th-text="#{page-new-user.surname}" ></label>
+                <input type="text" name="nom" id="nom" data-th-value="*{nom}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="prenom" data-th-text="#{page-new-user.name}"></label>
-                <input type="text" name="prenom" id="prenom" data-th-field="*{prenom}">
+                <input type="text" name="prenom" id="prenom" data-th-value="*{prenom}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="email" data-th-text="#{page-new-user.email}"></label>
-                <input type="text" name="email" id="email" data-th-field="*{email}">
+                <input type="text" name="email" id="email" data-th-value="*{email}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="telephone" data-th-text="#{page-new-user.telephone}"></label>
-                <input type="text" name="telephone" id="telephone" data-th-field="*{telephone}">
+                <input type="text" name="telephone" id="telephone" data-th-value="*{telephone}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="rue" data-th-text="#{page-new-user.street}"></label>
-                <input type="text" name="rue" id="rue" data-th-field="${user.adresse.rue}">
+                <input type="text" name="rue" id="rue" data-th-value="${user.adresse.rue}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="postal-code" data-th-text="#{page-new-user.postcode}"></label>
-                <input type="text" name="postal-code" id="postal-code" data-th-field="${user.adresse.codePostal}">
+                <input type="text" name="postal-code" id="postal-code" data-th-value="${user.adresse.codePostal}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
             <li>
                 <label class="label-field" for="ville" data-th-text="#{page-new-user.city}"></label>
-                <input type="text" name="ville" id="ville" data-th-field="${user.adresse.ville}">
+                <input type="text" name="ville" id="ville" data-th-value="${user.adresse.ville}" data-th-disabled="${#strings.isEmpty(action)}">
             </li>
         </ul>
     </section>
     <section id="new-user-buttons">
 <!--        <th:block data-th-if=""-->
-        <button type="reset" data-th-text="#{page-new-user.cancel}"></button>
+        <a data-th-href="@{/users/modify(pseudo=*{pseudo})}"><button  type="" data-th-text="#{page-user.modify}"></button></a>
     </section>
 </form>

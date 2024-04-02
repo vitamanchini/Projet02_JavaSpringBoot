@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
+                                                                                    pageComponents=~{::main},
+                                                                                    additionalResources=~{::#css})}">
+
+<head>
+    <title data-th-text="#{page-user.title}"></title>
+    <th:block id="css">
+        <link rel="stylesheet" data-th-href="@{/css/user-form.css}">
+    </th:block>
+</head>
+<body>
+<main>
+    <h2 data-th-text="#{page-user.title} +' : ' + ${user.pseudo}"></h2>
+    <div data-th-replace="~{fragments/fragment-user-profile :: frag-user-profile( ~{})}"></div>
+
+</main>
+</body>
+
+</html>

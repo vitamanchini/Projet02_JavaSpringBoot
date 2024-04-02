@@ -6,12 +6,17 @@ import fr.eni.spring.Projet02.dal.AdresseDAO;
 import fr.eni.spring.Projet02.dal.UtilisateurDAO;
 import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
+//    private PasswordEncoder passwordEncoder;
     private UtilisateurDAO utilisateurDAO;
     private AdresseDAO adresseDAO;
 
@@ -21,16 +26,64 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Utilisateur read(long id) {
-        return null;
+    public Utilisateur read(String pseudo) {
+        Utilisateur u =utilisateurDAO.read(pseudo);
+        Adresse a = adresseDAO.findById(u.getAdresse().getId());
+        u.getAdresse().setRue(a.getRue());
+        u.getAdresse().setCodePostal(a.getCodePostal());
+        u.getAdresse().setVille(a.getVille());
+        return u;
+
     }
 
     @Override
     public void updateUser(Utilisateur u) {
+        BusinessException be = new BusinessException();
+        boolean isValid = true;
+        isValid &= validateUser(u, be);
+        isValid &= validateNom(u.getNom(), be);
+        isValid &= validatePrenom(u.getPrenom(), be);
+        isValid &= validateEmail(u.getEmail(), be);
+        isValid &= validateEmailUnicity(u.getEmail(), be);
+        isValid &= validateTelephone(u.getTelephone(), be);
+        isValid &= validatePassword(u.getMotDePasse(), be);
+//        isValid &= validateAdresse(u.getAdresse(), be);
 
+        Adresse newAdresse = new Adresse();
+        newAdresse.setRue(u.getAdresse().getRue());
+        newAdresse.setCodePostal(u.getAdresse().getCodePostal());
+        newAdresse.setVille(u.getAdresse().getVille());
+
+        PasswordEncoder passwordEncoder =
+                PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        int temp = validateAddressExist(newAdresse);
+        if (temp > 0 && isValid) {
+            u.setAdmin(false);
+            u.setCredit(10);
+            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+
+            Adresse adresse = new Adresse();
+            adresse.setId(adresseDAO.findAddress(newAdresse));
+            u.setAdresse(adresse);
+            utilisateurDAO.create(u);
+        } else if (isValid) {
+            u.setAdmin(false);
+            u.setCredit(10);
+            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+
+            adresseDAO.create(newAdresse);
+            newAdresse.setId(adresseDAO.findAddress(newAdresse));
+            u.setAdresse(newAdresse);
+            utilisateurDAO.create(u);
+
+        } else {
+            throw be;
+        }
     }
 
     @Override
+    @Transactional
     public void createNewUser(Utilisateur u) {
         BusinessException be = new BusinessException();
         boolean isValid = true;
@@ -43,15 +96,36 @@ public class UserServiceImpl implements UserService {
         isValid &= validateEmailUnicity(u.getEmail(), be);
         isValid &= validateTelephone(u.getTelephone(), be);
         isValid &= validatePassword(u.getMotDePasse(), be);
-        isValid &= validateAdresse(u.getAdresse(), be);
+//        isValid &= validateAdresse(u.getAdresse(), be);
 
-        long temp = validateAddressExist(u.getAdresse());
-        if(temp > 0){
-            Adresse adresse = adresseDAO.findById(temp);
+        Adresse newAdresse = new Adresse();
+        newAdresse.setRue(u.getAdresse().getRue());
+        newAdresse.setCodePostal(u.getAdresse().getCodePostal());
+        newAdresse.setVille(u.getAdresse().getVille());
+
+        PasswordEncoder passwordEncoder =
+                PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        int temp = validateAddressExist(newAdresse);
+        if (temp > 0 && isValid) {
+            u.setAdmin(false);
+            u.setCredit(10);
+            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+
+            Adresse adresse = new Adresse();
+            adresse.setId(adresseDAO.findAddress(newAdresse));
             u.setAdresse(adresse);
             utilisateurDAO.create(u);
         } else if (isValid) {
+            u.setAdmin(false);
+            u.setCredit(10);
+            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+
+            adresseDAO.create(newAdresse);
+            newAdresse.setId(adresseDAO.findAddress(newAdresse));
+            u.setAdresse(newAdresse);
             utilisateurDAO.create(u);
+
         } else {
             throw be;
         }
@@ -168,11 +242,12 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
-    private long validateAddressExist(Adresse a){
-        long temp = 0;
-        try{
-            temp = adresseDAO.findAddress(a);
-        } catch (NullPointerException npe){
+
+    private int validateAddressExist(Adresse a) {
+        int temp = 0;
+        try {
+            temp = adresseDAO.findAddressExists(a);
+        } catch (NullPointerException npe) {
 
         }
         return temp;

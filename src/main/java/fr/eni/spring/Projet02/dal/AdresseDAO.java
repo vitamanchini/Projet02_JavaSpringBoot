@@ -9,4 +9,6 @@ public interface AdresseDAO {
     long findAddress(Adresse a);
 
     Adresse update(Adresse a);
+
+    int findAddressExists(Adresse a);
 }
