@@ -8,7 +8,7 @@ public interface ArticleService {
 
     List<ArticleAVendre> consulterArticleEnVente();
 
-    void creerArticle(Enchere auction);
+    void creerArticle(ArticleAVendre article);
 
     ArticleAVendre consulterArticleParId(long id);
 

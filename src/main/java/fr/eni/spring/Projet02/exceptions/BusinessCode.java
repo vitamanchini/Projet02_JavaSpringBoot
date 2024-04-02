@@ -23,6 +23,7 @@ public class BusinessCode {
     public static final String VALIDATION_ARTICLE_CATEGORIE = "validation.article.categorie";
     public static final String VALIDATION_ARTICLE_VENDEUR_NULL = "validation.article.vendeur.null";
     public static final String VALIDATION_ARTICLE_VENDEUR_INCONNU= "validation.article.vendeur.inconnu";
+    public static final String VALIDATION_ERROR_DISCONNECTED = "validation.error.disconnected";
 
 
     public static final String VALIDATION_USER_NULL = "validation.user.null";
