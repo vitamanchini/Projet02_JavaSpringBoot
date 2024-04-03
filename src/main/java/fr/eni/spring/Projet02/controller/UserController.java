@@ -3,13 +3,21 @@ package fr.eni.spring.Projet02.controller;
 import fr.eni.spring.Projet02.bll.UserService;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.Utilisateur;
+import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -25,8 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/signin")
-    public String signin(@ModelAttribute("utilisateurEnSession") Utilisateur u, Model model) {
-        if(u.getPseudo() != null){
+    public String signin(Principal p, Model model) {
+        if (p != null && p.getName() != null) {
             return "redirect:/accueil";
         } else {
             model.addAttribute("user", new Utilisateur());
@@ -35,20 +43,56 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public String createUser(@Valid @ModelAttribute("user") Utilisateur u, BindingResult bindingResult) {
+    public String createUser(Principal p, @Valid @ModelAttribute("user") Utilisateur u, BindingResult bindingResult) {
+        if (p != null && p.getName() != null) {
+            return "redirect:/accueil";
 
-        if (!bindingResult.hasErrors()) {
+        } else {
+            if (!bindingResult.hasErrors()) {
+                try {
+                    userService.createNewUser(u);
+                    return "redirect:/accueil";
+                } catch (BusinessException be) {
+                    be.getClefsExternalisations().forEach(key -> {
+                        ObjectError objectError = new ObjectError("globalError", key);
+                        bindingResult.addError(objectError);
+                    });
+                }
+            }
+            return "page-new-user";
+
+        }
+    }
+
+    @GetMapping("/profile")
+    public String userProfilePage(Principal p,
+                                  Utilisateur u,
+                                  Model model,
+                                  BindingResult bindingResult) {
+        if (p == null || p.getName() == null) {
+            return "redirect:/accueil";
+        } else {
             try {
-                userService.createNewUser(u);
-                return "redirect:/accueil" + u.getPseudo();
-            } catch (BusinessException be) {
-                be.getClefsExternalisations().forEach(key -> {
+                u = userService.read(p.getName());
+                model.addAttribute("user", u);
+
+                    return "page-user-profile";
+
+            } catch (BusinessException e) {
+                e.getClefsExternalisations().forEach(key -> {
                     ObjectError objectError = new ObjectError("globalError", key);
                     bindingResult.addError(objectError);
                 });
             }
         }
-        return "signin";
-
+            return "redirect:/accueil";
+    }
+    @GetMapping("/modify")
+    public String modifyUserInfo(Principal p){
+        if (p == null || p.getName() == null) {
+            return "redirect:/accueil";
+        } else {
+            return "page-modify-user-profile";
+        }
     }
 }

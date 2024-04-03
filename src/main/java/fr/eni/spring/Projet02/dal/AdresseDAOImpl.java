@@ -17,10 +17,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class AdresseDAOImpl implements AdresseDAO{
+public class AdresseDAOImpl implements AdresseDAO {
 
     private static final String FIND_BY_ID = "SELECT no_adresse,complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse = :id";
-    private static final String FIND_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE complet,rue,code_postal,ville=:";
+    private static final String FIND_ADDRESS = "SELECT no_adresse FROM ADRESSES " +
+            "WHERE rue = :rue AND code_postal= :code_postal AND ville=:ville";
+    private static final String FIND_ADDRESS_EXISTS = "SELECT COUNT(no_adresse) FROM ADRESSES " +
+            "WHERE rue = :rue AND code_postal= :code_postal AND ville=:ville";
     private static final String UPDATE = "UPDATE complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse = :id";
     private static final String INSERT = "INSERT INTO ADRESSES (no_adresse,complement,rue,code_postal,ville) VALUES (:id,:complement,:rue,:codePostal,:ville)";
     private static final String FIND_BY_ADDRESS = "SELECT a.no_adresse, a.complement,a.rue,a.code_postal,a.ville FROM ADRESSES a INNER JOIN UTILISATEURS u WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ? AND u.pseudo=:pseudo";
@@ -32,21 +35,21 @@ public class AdresseDAOImpl implements AdresseDAO{
     @Override
     public Adresse findById(long id) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.addValue("no_adresse",id);
-        return jdbcTemplate.queryForObject(FIND_BY_ID,namedParameters,new AdresseRowMapper());
+        namedParameters.addValue("id", id);
+        return jdbcTemplate.queryForObject(FIND_BY_ID, namedParameters, new BeanPropertyRowMapper<>(Adresse.class));
     }
 
     @Override
     public void create(Adresse a) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.addValue("complement",a.getComplement());
-        namedParameters.addValue("rue",a.getRue());
-        namedParameters.addValue("code_postal",a.getCodePostal());
-        namedParameters.addValue("ville",a.getRue());
-        jdbcTemplate.update(INSERT,namedParameters,keyHolder);
+        namedParameters.addValue("complement", a.getComplement());
+        namedParameters.addValue("rue", a.getRue());
+        namedParameters.addValue("codePostal", a.getCodePostal());
+        namedParameters.addValue("ville", a.getVille());
+        jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
-        if (keyHolder != null && keyHolder.getKey() != null){
+        if (keyHolder != null && keyHolder.getKey() != null) {
             a.setId(keyHolder.getKey().longValue());
         }
 
@@ -61,7 +64,19 @@ public class AdresseDAOImpl implements AdresseDAO{
 
     @Override
     public long findAddress(Adresse a) {
-        return 0;
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("rue", a.getRue());
+        namedParameters.addValue("code_postal", a.getCodePostal());
+        namedParameters.addValue("ville", a.getVille());
+        return jdbcTemplate.queryForObject(FIND_ADDRESS, namedParameters, Long.class);
+    }
+    @Override
+    public int findAddressExists(Adresse a) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("rue", a.getRue());
+        namedParameters.addValue("code_postal", a.getCodePostal());
+        namedParameters.addValue("ville", a.getVille());
+        return jdbcTemplate.queryForObject(FIND_ADDRESS_EXISTS, namedParameters, Integer.class);
     }
 
     @Override

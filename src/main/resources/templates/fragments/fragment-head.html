@@ -11,7 +11,7 @@
                 <a data-th-href="@{/vendre}" data-th-text="#{fragment-head.main.sell}"></a>
             </li>
             <li data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a data-th-href="@{/profil}" data-th-text="#{fragment-head.main.profile}"></a>
+                <a data-th-href="@{/users/profile}" data-th-text="#{fragment-head.main.profile}"></a>
             </li>
             <li data-th-if="${#authorization.expression('isAuthenticated()')}">
                 <a href="/logout" data-th-text="#{fragment-head.main.disconnection}"></a>

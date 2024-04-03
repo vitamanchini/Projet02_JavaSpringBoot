@@ -15,12 +15,17 @@ import java.sql.SQLException;
 @Repository
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 
-    private static final String FIND_BY_PSEUDO = "SELECT pseudo,mot_de_passe,administrateur FROM UTILISATEURS WHERE pseudo = :pseudo";
+    private static final String FIND_BY_PSEUDO = "SELECT pseudo,nom,prenom,email,telephone,mot_de_passe,credit,administrateur,no_adresse " +
+            "FROM UTILISATEURS WHERE pseudo = :pseudo";
     private static final String FIND_BY_PSEUDO_MAINPAGE = "SELECT pseudo,nom,prenom FROM UTILISATEURS WHERE pseudo = :pseudo";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo,nom,prenom,email,telephone,mot_de_passe,credit,administrateur,no_adresse) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
     private static final String FIND_BY_EMAIL = "SELECT email FROM UTILISATEURS WHERE email = :email"; //count
     private static final String FIND_BY_PSEUDO_BOOL = "SELECT pseudo FROM UTILISATEURS WHERE pseudo = :pseudo"; //count
+    private static final String FIND_BY_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ?";
+    private static final String FIND_USER = "SELECT pseudo,nom,prenom,email,telephone,mot_de_passe,no_adresse FROM UTILISATEURS " +
+            "WHERE pseudo = :pseudo";
+
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +35,12 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo",pseudo);
         return jdbcTemplate.queryForObject(FIND_BY_PSEUDO,namedParameters,new UtilisateurRowMapper());
+    }
+    @Override
+    public Utilisateur findByPseudo(String pseudo) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("pseudo",pseudo);
+        return jdbcTemplate.queryForObject(FIND_USER,namedParameters,new BeanPropertyRowMapper<>(Utilisateur.class));
     }
     @Override
     public Utilisateur findByPseudoForMainPage(String pseudo) {
@@ -54,13 +65,26 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         jdbcTemplate.update(INSERT, parameterSource);
 
     }
+    @Override
+    public void update(Utilisateur u){
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        parameterSource.addValue("nom", u.getNom());
+        parameterSource.addValue("prenom", u.getPrenom());
+        parameterSource.addValue("email", u.getEmail());
+        parameterSource.addValue("telephone", u.getTelephone());
+        parameterSource.addValue("mot_de_passe", u.getMotDePasse());
+        parameterSource.addValue("no_adresse", u.getAdresse().getId());
+
+        jdbcTemplate.update(INSERT, parameterSource);
+    }
 
     @Override
     public boolean findPseudo(String ps) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo",ps);
         if (jdbcTemplate.queryForObject(FIND_BY_PSEUDO_BOOL,namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class)) != null) {
+                Integer.class) > 0) {
             return true;
         } else return false;
     }
@@ -70,7 +94,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("email",e);
         if (jdbcTemplate.queryForObject(FIND_BY_EMAIL,namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class)) != null) {
+                Integer.class) > 0) {
             return true;
         } else return false;
     }
@@ -88,9 +112,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             u.setNom(rs.getString("nom"));
             u.setPrenom(rs.getString("prenom"));
             u.setMotDePasse(rs.getString("mot_de_passe"));
-            u.setAdmin(rs.getBoolean("admin"));
+            u.setCredit(rs.getInt("credit"));
+            u.setAdmin(rs.getBoolean("administrateur"));
             Adresse adresse = new Adresse();
-            adresse.setId(rs.getInt("id"));
+            adresse.setId(rs.getLong("no_adresse"));
             u.setAdresse(adresse);
             return u;
         }
