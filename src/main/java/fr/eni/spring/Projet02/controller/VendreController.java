@@ -5,6 +5,7 @@ import fr.eni.spring.Projet02.bll.ArticleService;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.Adresse;
 import fr.eni.spring.Projet02.bo.ArticleAVendre;
+import fr.eni.spring.Projet02.bo.Categorie;
 import fr.eni.spring.Projet02.bo.Utilisateur;
 import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
@@ -16,61 +17,36 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.List;
 
 import static fr.eni.spring.Projet02.exceptions.BusinessCode.VALIDATION_ERROR_DISCONNECTED;
 
 @Controller
-@RequestMapping("/vendre")
+@RequestMapping({"/vendre"})
 public class VendreController {
-
-    private ContexteService contexteService;
     private ArticleService articleService;
     private AdresseService adresseService;
-
-    public VendreController(ContexteService contexteService, ArticleService articleService, AdresseService adresseService) {
-        this.contexteService = contexteService;
+    public VendreController(ArticleService articleService, AdresseService adresseService) {
         this.articleService = articleService;
-        this.adresseService=adresseService;
+        this.adresseService= adresseService;
     }
 
-    @GetMapping("/vendre")
-    public String Vendre(Principal p) {
+    @GetMapping()
+    public String vendre(Principal p, Model model) {
+
+        System.out.println("Point d'arrêt");
         if(p == null){
             return "redirect:/accueil";
         } else {
+            p.getName();
+            List<Adresse> l = adresseService.consulterAdressesVendeur(p);
+            model.addAttribute("adresses",l);
+            ArticleAVendre articleAVendre = new ArticleAVendre();
+            articleAVendre.setDateDebutEncheres();
+            model.addAttribute("aVendre",articleAVendre);
             return "vente-article";
         }
-    }
-
-
-
-
-    @PostMapping("/vendre")
-    public String creerArticleAVendre(@Valid @ModelAttribute("articleAVendre") ArticleAVendre articleAVendre, BindingResult bindingResult, Principal p){
-        if(p!=null && p.getName()!=null){
-            if(!bindingResult.hasErrors()){
-                try {
-                    System.out.println(articleAVendre);
-                    articleService.creerArticle(articleAVendre);
-                    return "redirect:/accueil";
-                } catch (BusinessException e){
-                    e.getClefsExternalisations().forEach(key ->{
-                        ObjectError error = new ObjectError("globalError",key);
-                        bindingResult.addError(error);
-                    });
-                }
-            }
-        }else {
-            System.out.println("VALIDATION_ERROR_DISCONNECTED");
-            ObjectError error = new ObjectError("globalError", VALIDATION_ERROR_DISCONNECTED);
-            bindingResult.addError(error);
-        }
-        return "vente-article";
-    }
-
-    @ModelAttribute
-    public Adresse afficherAdresses(@RequestParam(name = "no_adresse",required = true) int idAdresse){
-        return articleService.consulterAdresseParId(idAdresse);
     }
 
 

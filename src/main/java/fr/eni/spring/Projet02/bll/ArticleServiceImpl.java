@@ -56,6 +56,12 @@ public class ArticleServiceImpl implements ArticleService {
         isValid &= validerRetrait(a.getRetrait().getId(),be);
         isValid &= validerCategorie(a.getCategorie(),be);
         isValid &= validerVendeur(a.getVendeur(),be);
+        if (isValid){
+            articleAVendreDAO.create(a);
+        }else {
+            throw be;
+        }
+
     }
 
     private boolean validerArticle(ArticleAVendre a, long id, BusinessException be){
@@ -188,6 +194,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     public Categorie consulterCategorieParId(long id) {
         return categorieDAO.read(id);
+    }
+
+    public Categorie consulterAllCategorie(){
+        return (Categorie) categorieDAO.findAll();
     }
 
     @Override

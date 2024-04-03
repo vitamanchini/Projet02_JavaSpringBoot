@@ -16,5 +16,6 @@ public interface ArticleService {
 
     Categorie consulterCategorieParId(long id);
 
+    Categorie consulterAllCategorie();
     Adresse consulterAdresseParId(long id);
 }

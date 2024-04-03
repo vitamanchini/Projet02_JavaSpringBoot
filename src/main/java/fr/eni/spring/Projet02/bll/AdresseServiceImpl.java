@@ -8,20 +8,24 @@ import fr.eni.spring.Projet02.dal.CategorieDAO;
 import fr.eni.spring.Projet02.dal.UtilisateurDAO;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
 public class AdresseServiceImpl implements AdresseService {
 
-    private UtilisateurDAO utilisateurDAO;
+    private AdresseDAO adresseDAO;
 
-    public AdresseServiceImpl(UtilisateurDAO utilisateurDAO) {
-        this.utilisateurDAO = utilisateurDAO;
+    public AdresseServiceImpl(AdresseDAO adresseDAO) {
+        this.adresseDAO = adresseDAO;
     }
 
     @Override
-    public List<Adresse> consulterAdressesVendeur(long id) {
-        return (List<Adresse>) utilisateurDAO.findByAddress(id);
+    public List<Adresse> consulterAdressesVendeur(Principal p) {
+        return adresseDAO.findByAddresses(p);
+    }
 
+    public Adresse consulterUneAdresse(long id){
+        return adresseDAO.findById(id);
     }
 }

@@ -1,7 +1,9 @@
 package fr.eni.spring.Projet02.dal;
 
 import fr.eni.spring.Projet02.bo.Adresse;
+import fr.eni.spring.Projet02.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,8 +11,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.security.Principal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class AdresseDAOImpl implements AdresseDAO{
@@ -19,6 +23,7 @@ public class AdresseDAOImpl implements AdresseDAO{
     private static final String FIND_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE complet,rue,code_postal,ville=:";
     private static final String UPDATE = "UPDATE complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse = :id";
     private static final String INSERT = "INSERT INTO ADRESSES (no_adresse,complement,rue,code_postal,ville) VALUES (:id,:complement,:rue,:codePostal,:ville)";
+    private static final String FIND_BY_ADDRESS = "SELECT a.no_adresse, a.complement,a.rue,a.code_postal,a.ville FROM ADRESSES a INNER JOIN UTILISATEURS u WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ? AND u.pseudo=:pseudo";
 
 
     @Autowired
@@ -45,6 +50,13 @@ public class AdresseDAOImpl implements AdresseDAO{
             a.setId(keyHolder.getKey().longValue());
         }
 
+    }
+
+    @Override
+    public List<Adresse> findByAddresses(Principal p) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("no_adresse",p);
+        return jdbcTemplate.query(FIND_BY_ADDRESS,parameterSource,new AdresseRowMapper());
     }
 
     @Override

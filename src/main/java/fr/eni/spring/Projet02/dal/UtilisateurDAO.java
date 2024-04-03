@@ -11,5 +11,5 @@ public interface UtilisateurDAO {
     void create(Utilisateur utilisateur);
     boolean findPseudo(String ps);
     boolean findEmail(String e);
-    Utilisateur findByAddress(long idAdresse);
+
 }
