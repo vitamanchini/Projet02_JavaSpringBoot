@@ -11,6 +11,7 @@ import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -32,6 +33,82 @@ public class AccueilServiceImpl implements AccueilService{
     public List<ArticleAVendre> findAll() {
         try {
             List<ArticleAVendre> articles = articleAVendreDAO.readAll();
+            if (articles != null) {
+                articles.forEach(this::loadSeller);
+                return articles;
+            }
+        } catch (BusinessException be){
+            be.add(BusinessCode.ERROR_ARTICLES_LOAD);
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ArticleAVendre> findAllFinish() {
+        try {
+            List<ArticleAVendre> articles = articleAVendreDAO.readAllFinish();
+            if (articles != null) {
+                articles.forEach(this::loadSeller);
+                return articles;
+            }
+        } catch (BusinessException be){
+            be.add(BusinessCode.ERROR_ARTICLES_LOAD);
+        }
+
+        return null;
+    }
+    @Override
+    public List<ArticleAVendre> findAllNotStarted() {
+        try {
+            List<ArticleAVendre> articles = articleAVendreDAO.readAllNotStarted();
+            if (articles != null) {
+                articles.forEach(this::loadSeller);
+                return articles;
+            }
+        } catch (BusinessException be){
+            be.add(BusinessCode.ERROR_ARTICLES_LOAD);
+        }
+
+        return null;
+    }
+    @Override
+    public List<ArticleAVendre> findAllMesEncheresEnCours(Principal p, Utilisateur u) {
+        u = utilisateurDAO.read(u.getPseudo());
+        if (p==u){
+            try {
+                List<ArticleAVendre> articles = articleAVendreDAO.readAllMesEncheresEnCours();
+                if (articles != null) {
+                    articles.forEach(this::loadSeller);
+                    return articles;
+                }
+            } catch (BusinessException be){
+                be.add(BusinessCode.ERROR_ARTICLES_LOAD);
+            }
+        }
+
+        return null;
+    }
+    @Override
+    public List<ArticleAVendre> findAllMesEncheresFinies(Principal p, Utilisateur u) {
+        u = utilisateurDAO.read(u.getPseudo());
+        try {
+            List<ArticleAVendre> articles = articleAVendreDAO.readAllMesEncheresFinies();
+            if (articles != null) {
+                articles.forEach(this::loadSeller);
+                return articles;
+            }
+        } catch (BusinessException be){
+            be.add(BusinessCode.ERROR_ARTICLES_LOAD);
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ArticleAVendre> findAllStarted() {
+        try {
+            List<ArticleAVendre> articles = articleAVendreDAO.readAllCurrent();
             if (articles != null) {
                 articles.forEach(this::loadSeller);
                 return articles;

@@ -47,6 +47,7 @@ public class EncheresSecurityConfig {
                             .permitAll();
                         });
 
+
                 http.logout(logout ->{
                     logout
                             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

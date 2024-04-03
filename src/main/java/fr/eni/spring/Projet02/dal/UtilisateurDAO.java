@@ -16,5 +16,5 @@ public interface UtilisateurDAO {
 
     boolean findPseudo(String ps);
     boolean findEmail(String e);
-    Utilisateur findByAddress(long idAdresse);
+
 }

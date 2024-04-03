@@ -15,8 +15,34 @@
             </div>
             <button type="submit" data-th-text="#{fragment-list-encheres.search}" id="recherche"></button>
         </form>
+    <section id="accueil-achat" data-th-if="${#authorization.expression('isAuthenticated()')}">
+        <ul>
+            <input type="radio" name="categorie" id="Achat" checked data-th-text="#{accueil.bouton1}"/>
+            <li>
+                <input type="checkbox" name="openAuctions" checked data-th-text="#{accueil.encheres.ouvertes}"/>
+            </li>
+            <li>
+                <input type="checkbox" name="openAuctionsForMe" data-th-text="#{accueil.encheres.encours}"/>
+            </li>
+            <li>
+                <input type="checkbox" name="finishedAuctionsForMe" data-th-text="#{accueil.encheres.gagnees}"/>
+            </li>
+        </ul>
+        <ul>
+            <input type="radio" name="categorie" id="Vente" data-th-text="#{accueil.bouton2}"/>
+            <li>
+                <input type="checkbox" name="myOpenAuctions" data-th-text="#{accueil.ventes.ouvertes}"/>
+            </li>
+            <li>
+                <input type="checkbox" name="myAuctionsNotStarted" data-th-text="#{accueil.ventes.fermees}"/>
+            </li>
+            <li>
+                <input type="checkbox" name="myFinishedAuctions" data-th-text="#{accueil.encheres.terminees}"/>
+            </li>
+        </ul>
+    </section>
 
-    <section>
+    <section data-th-if="${!#authorization.expression('isAuthenticated()')}">
         <article data-th-each="item : ${articleAVendre}">
             <img src="" alt="" srcset="">
             <div>
@@ -24,6 +50,62 @@
                 <p data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+    </section>
+    <section data-th-if="${#authorization.expression('isAuthenticated()')}">
+        <article data-th-if="openAuctions==1" data-th-each="item : ${articleAVendre}">
+            <img src="" alt="" srcset="">
+            <div>
+                <h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+        <article data-th-if="openAuctionsForMe==1" data-th-each="item : ${mesEncheresEnCours}">
+            <img data-th-if="item.acquereur==principal" src="" alt="" srcset="">
+            <div>
+                <h3 data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+        <article data-th-if="finishedAuctionsForMe==1" data-th-each="item : ${mesEncheresRemportees}">
+            <img data-th-if="item.acquereur==principal" src="" alt="" srcset="">
+            <div>
+                <h3 data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+        <article data-th-if="myOpenAuctions==1" data-th-each="item : ${mesVentesEnCours}">
+            <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
+            <div>
+                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+        <article data-th-if="myAuctionsNotStarted==1" data-th-each="item : ${mesVentesNonDebutees}">
+            <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
+            <div>
+                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
+            </div>
+        </article>
+        <article data-th-if="myFinishedAuctions==1" data-th-each="item : ${mesVentesFinies}">
+            <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
+            <div>
+                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
+                <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
             </div>
         </article>
     </section>
