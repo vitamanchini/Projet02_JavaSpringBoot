@@ -3,14 +3,8 @@ package fr.eni.spring.Projet02.controller;
 import fr.eni.spring.Projet02.bll.UserService;
 import fr.eni.spring.Projet02.bll.contexte.ContexteService;
 import fr.eni.spring.Projet02.bo.Utilisateur;
-import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,9 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String userProfilePage(Principal p,
-                                  Utilisateur u,
-                                  Model model,
+    public String userProfilePage(Principal p, Utilisateur u, Model model,
                                   BindingResult bindingResult) {
         if (p == null || p.getName() == null) {
             return "redirect:/accueil";
@@ -88,11 +80,45 @@ public class UserController {
             return "redirect:/accueil";
     }
     @GetMapping("/modify")
-    public String modifyUserInfo(Principal p){
+    public String modifyUserInfo(Principal p,
+//                                 @RequestParam("pseudo") String ps,
+                                 Utilisateur u,
+                                 Model model
+    ){
         if (p == null || p.getName() == null) {
             return "redirect:/accueil";
         } else {
-            return "page-modify-user-profile";
+            Utilisateur newbee = new Utilisateur();
+            Utilisateur u2 = userService.read(p.getName());
+            newbee.setPseudo(u2.getPseudo());
+
+            model.addAttribute("user", newbee);
+                return "page-modify-user-profile";
+        }
+
+    }
+    @PostMapping("/modify/save-changes")
+    public String saveChangesUserProfile(Principal p,
+            Utilisateur u,
+            BindingResult bindingResult
+    ) {
+
+        if (p == null || p.getName() == null) {
+            return "redirect:/accueil";
+
+        } else {
+            if (!bindingResult.hasErrors()) {
+                try {
+                    userService.updateUser(u);
+                    return "redirect:/users/profile";
+                } catch (BusinessException be) {
+                    be.getClefsExternalisations().forEach(key -> {
+                        ObjectError objectError = new ObjectError("globalError", key);
+                        bindingResult.addError(objectError);
+                    });
+                }
+            }
+            return "redirect:/users/profile";
         }
     }
 }

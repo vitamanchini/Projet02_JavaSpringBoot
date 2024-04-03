@@ -13,7 +13,7 @@
 <body>
 <main>
     <h2 data-th-text="#{page-user.title} +' : ' + ${user.pseudo}"></h2>
-    <div data-th-replace="~{fragments/fragment-user-profile :: frag-user-profile( ~{})}"></div>
+    <div data-th-replace="~{fragments/fragment-user-form :: fragm-form-user(@{/modify/save-changes?pseudo=} + ${user.pseudo})}"></div>
 
 </main>
 </body>
