@@ -2,9 +2,12 @@ package fr.eni.spring.Projet02.dal;
 
 import fr.eni.spring.Projet02.bo.Utilisateur;
 
+import java.security.Principal;
+
 public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
+    Utilisateur read(Principal p);
 
     Utilisateur findByPseudo(String pseudo);
 

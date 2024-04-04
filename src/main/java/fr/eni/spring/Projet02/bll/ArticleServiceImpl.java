@@ -1,5 +1,6 @@
 package fr.eni.spring.Projet02.bll;
 
+import ch.qos.logback.classic.Logger;
 import fr.eni.spring.Projet02.bo.*;
 import fr.eni.spring.Projet02.dal.AdresseDAO;
 import fr.eni.spring.Projet02.dal.ArticleAVendreDAO;
@@ -9,7 +10,9 @@ import fr.eni.spring.Projet02.exceptions.BusinessCode;
 import fr.eni.spring.Projet02.exceptions.BusinessException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -44,6 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void creerArticle(ArticleAVendre a) {
         BusinessException be = new BusinessException();
         boolean isValid = true;
@@ -53,9 +57,6 @@ public class ArticleServiceImpl implements ArticleService {
         isValid &= validerDateDebut(a.getDateDebutEncheres(),be);
         isValid &= validerDateFin(a.getDateFinEncheres(), a.getDateDebutEncheres(),be);
         isValid &= validerPrixInitial(a.getPrixInitial(),be);
-        isValid &= validerRetrait(a.getRetrait().getId(),be);
-        isValid &= validerCategorie(a.getCategorie(),be);
-        isValid &= validerVendeur(a.getVendeur(),be);
         if (isValid){
             articleAVendreDAO.create(a);
         }else {
@@ -139,47 +140,30 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
 
-    private boolean validerRetrait(long id, BusinessException be){
-        boolean adresseExiste = true;
-        if (adresseDAO.findById(id)==null){
-            adresseExiste = false;
-        }
-        if (!adresseExiste){
-            be.add(BusinessCode.VALIDATION_ARTICLE_ADRESSE);
-            return false;
-        }
-        return true;
-    }
+//    private boolean validerRetrait(long id, BusinessException be){
+//        boolean adresseExiste = true;
+//        if (adresseDAO.findById(id)==null){
+//            adresseExiste = false;
+//        }
+//        if (!adresseExiste){
+//            be.add(BusinessCode.VALIDATION_ARTICLE_ADRESSE);
+//            return false;
+//        }
+//        return true;
+//    }
 
-    private boolean validerCategorie(Categorie id, BusinessException be){
-        boolean categorieExiste = true;
-        if (categorieDAO.read(id.getId())==null){
-            categorieExiste=false;
-        }
-        if(!categorieExiste){
-            be.add(BusinessCode.VALIDATION_ARTICLE_CATEGORIE);
-            return false;
-        }
-        return true;
-    }
+//    private boolean validerCategorie(Categorie id, BusinessException be){
+//        boolean categorieExiste = true;
+//        if (categorieDAO.read(id.getId())==null){
+//            categorieExiste=false;
+//        }
+//        if(!categorieExiste){
+//            be.add(BusinessCode.VALIDATION_ARTICLE_CATEGORIE);
+//            return false;
+//        }
+//        return true;
+//    }
 
-    private boolean validerVendeur(Utilisateur pseudo, BusinessException be){
-        if (pseudo==null){
-            be.add(BusinessCode.VALIDATION_ARTICLE_VENDEUR_NULL);
-            return false;
-        }
-        try {
-            Utilisateur utilisateur = utilisateurDAO.read(pseudo.getPseudo());
-            if (pseudo!=utilisateur){
-                be.add(BusinessCode.VALIDATION_ARTICLE_VENDEUR_INCONNU);
-                return false;
-            }
-        }catch (DataAccessException de){
-            be.add(BusinessCode.VALIDATION_ARTICLE_VENDEUR_INCONNU);
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public ArticleAVendre consulterArticleParId(long id) {
@@ -187,8 +171,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Utilisateur consulterVendeurParId(String id) {
-        return utilisateurDAO.read(id);
+    public Utilisateur consulterVendeurParId(Principal p) {
+        return utilisateurDAO.read(p.getName());
     }
 
 
@@ -203,5 +187,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Adresse consulterAdresseParId(long id) {
         return adresseDAO.findById(id);
+    }
+
+    @Override
+    public LocalDate verifierDateDebut() {
+            LocalDate dateDebut = LocalDate.now();
+            return dateDebut;
+    }
+
+    @Override
+    public LocalDate verifierDateFin() {
+        LocalDate dateFin = LocalDate.now().plusDays(1);
+        return dateFin;
     }
 }
