@@ -47,7 +47,7 @@
             </li>
             <th:block data-th-if="${#authorization.expression('isAuthenticated()')}">
                 <label class="label-field" for="credit" data-th-text="#{page-new-user.credit}"></label>
-                <input type="text" name="credit" id="credit" data-th-field="${user.credit}">
+                <input type="text" disabled name="credit" id="credit" data-th-field="${user.credit}">
             </th:block>
 
         </ul>

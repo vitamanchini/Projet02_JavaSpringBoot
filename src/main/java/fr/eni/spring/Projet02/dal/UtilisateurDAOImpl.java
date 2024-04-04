@@ -25,6 +25,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private static final String FIND_BY_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ?";
     private static final String FIND_USER = "SELECT pseudo,nom,prenom,email,telephone,mot_de_passe,no_adresse FROM UTILISATEURS " +
             "WHERE pseudo = :pseudo";
+    private static final String UPDATE = "UPDATE UTILISATEURS " +
+            "SET nom=:nom,prenom= :prenom,email=:email,telephone=:telephone,no_adresse=:no_adresse " +
+            "WHERE pseudo = :pseudo";
+    private static final String UPDATE_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=:mot_de_passe WHERE pseudo = :pseudo";
 
 
     @Autowired
@@ -69,6 +73,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     public void update(Utilisateur u){
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
+        parameterSource.addValue("pseudo",u.getPseudo());
         parameterSource.addValue("nom", u.getNom());
         parameterSource.addValue("prenom", u.getPrenom());
         parameterSource.addValue("email", u.getEmail());
@@ -76,7 +81,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         parameterSource.addValue("mot_de_passe", u.getMotDePasse());
         parameterSource.addValue("no_adresse", u.getAdresse().getId());
 
-        jdbcTemplate.update(INSERT, parameterSource);
+        jdbcTemplate.update(UPDATE, parameterSource);
+    }
+    @Override
+    public void updateUserPassword(Utilisateur u){
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+
+        parameterSource.addValue("mot_de_passe", u.getMotDePasse());
+
+        jdbcTemplate.update(UPDATE_PASSWORD, parameterSource);
     }
 
     @Override
@@ -99,9 +112,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         } else return false;
     }
 
-
-
-
     class UtilisateurRowMapper implements RowMapper<Utilisateur> {
 
         @Override
@@ -111,6 +121,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             u.setEmail(rs.getString("email"));
             u.setNom(rs.getString("nom"));
             u.setPrenom(rs.getString("prenom"));
+            u.setTelephone(rs.getString("telephone"));
             u.setMotDePasse(rs.getString("mot_de_passe"));
             u.setCredit(rs.getInt("credit"));
             u.setAdmin(rs.getBoolean("administrateur"));

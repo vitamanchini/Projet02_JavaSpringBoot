@@ -35,7 +35,7 @@ public class BusinessCode {
     public static final String VALIDATION_USER_SURNAME_BLANK = "validation.user.surname.blank";
     public static final String VALIDATION_USER_NAME_BLANK = "validation.user.name.blank";
     public static final String VALIDATION_USER_EMAIL_BLANK = "validation.user.email.blank";
-    public static final String VALIDATION_USER_PASSWORD = "validation.user.password";
+    public static final String VALIDATION_USER_PASSWORD = "Pattern.utilisateur.motDePasse";
     public static final String VALIDATION_USER_PASSWORD_CONFIRM = "validation.user.password.confirm";
     public static final String VALIDATION_USER_EMAIL_UNICITY = "validation.user.email.unicity";
     public static final String VALIDATION_USER_PHONE = "validation.user.phone";

@@ -14,6 +14,8 @@ public interface UtilisateurDAO {
 
     void update(Utilisateur u);
 
+    void updateUserPassword(Utilisateur u);
+
     boolean findPseudo(String ps);
     boolean findEmail(String e);
 

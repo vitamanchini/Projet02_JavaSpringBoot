@@ -81,7 +81,6 @@ public class UserController {
     }
     @GetMapping("/modify")
     public String modifyUserInfo(Principal p,
-//                                 @RequestParam("pseudo") String ps,
                                  Utilisateur u,
                                  Model model
     ){
@@ -89,12 +88,11 @@ public class UserController {
             return "redirect:/accueil";
         } else {
             Utilisateur newbee = new Utilisateur();
-            Utilisateur u2 = userService.read(p.getName());
-            newbee.setPseudo(u2.getPseudo());
+            Utilisateur userFromDB = userService.read(p.getName());
+            newbee.setPseudo(userFromDB.getPseudo());
 
-            model.addAttribute("user", u2);
+            model.addAttribute("user", newbee);
 
-            System.out.println("Hi there/////////////////////");
                 return "page-modify-user-profile";
         }
 
@@ -102,8 +100,6 @@ public class UserController {
     @PostMapping("/modify")
     public String saveChangesUserProfile(Principal p,
             @Valid @ModelAttribute("user") Utilisateur u,
-//                                      @RequestParam("pseudo") String pseudo,
-
             BindingResult bindingResult
     ) {
 
@@ -111,19 +107,17 @@ public class UserController {
             return "redirect:/accueil";
 
         } else {
-
-            System.out.println("Hi there2++++++++++++++++++++++");
-//                    u = userService.read(p.getName());
+            try{
                     userService.updateUser(u);
                     return "redirect:/users/profile";
-//                } catch (BusinessException be) {
-//                    be.getClefsExternalisations().forEach(key -> {
-//                        ObjectError objectError = new ObjectError("globalError", key);
-//                        bindingResult.addError(objectError);
-//                    });
-//                }
-//            }
-//            return "redirect:/users/profile";
+                } catch (BusinessException be) {
+                    be.getClefsExternalisations().forEach(key -> {
+                        ObjectError objectError = new ObjectError("globalError", key);
+                        bindingResult.addError(objectError);
+                    });
+                }
+            }
+            return "redirect:/users/profile";
         }
-    }
+
 }

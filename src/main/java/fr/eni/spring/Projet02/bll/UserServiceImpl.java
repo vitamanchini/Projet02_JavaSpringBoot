@@ -40,44 +40,89 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(Utilisateur u) {
         BusinessException be = new BusinessException();
-        boolean isValid = true;
-        isValid &= validateUser(u, be);
-        isValid &= validateNom(u.getNom(), be);
-        isValid &= validatePrenom(u.getPrenom(), be);
-        isValid &= validateEmail(u.getEmail(), be);
-        isValid &= validateEmailUnicity(u.getEmail(), be);
-        isValid &= validateTelephone(u.getTelephone(), be);
-        isValid &= validatePassword(u.getMotDePasse(), be);
-//        isValid &= validateAdresse(u.getAdresse(), be);
-
-        Adresse newAdresse = new Adresse();
-        newAdresse.setRue(u.getAdresse().getRue());
-        newAdresse.setCodePostal(u.getAdresse().getCodePostal());
-        newAdresse.setVille(u.getAdresse().getVille());
-
+        Utilisateur userFromDB = utilisateurDAO.read(u.getPseudo());
         PasswordEncoder passwordEncoder =
                 PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        boolean isValid = true;
+//        isValid &= validateUser(u, be);
+        if(!u.getNom().isBlank()){
+            isValid &= validateNom(u.getNom(), be);
+            userFromDB.setNom(u.getNom());
+        }
+        if(!u.getPrenom().isBlank()){
+            isValid &= validatePrenom(u.getPrenom(), be);
+            userFromDB.setPrenom(u.getPrenom());
+        }
+        if(!u.getEmail().isBlank()){
+            isValid &= validateEmail(u.getEmail(), be);
+            isValid &= validateEmailUnicity(u.getEmail(), be);
+            userFromDB.setEmail(u.getEmail());
+        }
+        if(!u.getTelephone().isBlank()){
+            isValid &= validateTelephone(u.getTelephone(), be);
+            userFromDB.setTelephone(u.getTelephone());
+        }
 
-        int temp = validateAddressExist(newAdresse);
-        if (temp > 0 && isValid) {
-            u.setAdmin(false);
-            u.setCredit(10);
-            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+        if(!u.getMotDePasse().isBlank()) {
+            isValid &= validatePassword(u.getMotDePasse(), be);
+
+        }
+
+        int temp = -1;
+        if(!u.getAdresse().getRue().isBlank() ||
+                !u.getAdresse().getCodePostal().isBlank()||
+                !u.getAdresse().getVille().isBlank()) {
+            Adresse newAdresse = new Adresse();
+            newAdresse.setRue(u.getAdresse().getRue());
+            newAdresse.setCodePostal(u.getAdresse().getCodePostal());
+            newAdresse.setVille(u.getAdresse().getVille());
+            userFromDB.setAdresse(newAdresse);
+            temp = validateAddressExist(newAdresse);
+        }
+// temp == -1  ---> adress not edited/no new
+        // temp > 0  ---> adress exists/ no new
+        // temp == 0  ---> adress doesn't exists/do new
+        System.out.println("++++++++++++++++++++++++");
+        System.out.println(temp);
+        System.out.println(isValid);
+        System.out.println("User edited + " + u);
+        System.out.println("User loaded + " + userFromDB);
+        System.out.println("++++++++++++++++++++++++");
+
+        if (temp == 0 && isValid) {
 
             Adresse adresse = new Adresse();
-            adresse.setId(adresseDAO.findAddress(newAdresse));
-            u.setAdresse(adresse);
-            utilisateurDAO.create(u);
-        } else if (isValid) {
-            u.setAdmin(false);
-            u.setCredit(10);
-            u.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+            adresse.setId(adresseDAO.findAddress(userFromDB.getAdresse()));
+            userFromDB.setAdresse(adresse);
+            if(u.getMotDePasse() != null || !u.getMotDePasse().isBlank()) {
+                userFromDB.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+                utilisateurDAO.updateUserPassword(userFromDB);
+                utilisateurDAO.update(userFromDB);
+            }else {
+            utilisateurDAO.update(userFromDB);
+            }
+        }
+        if (isValid && temp > 0) {
 
-            adresseDAO.create(newAdresse);
-            newAdresse.setId(adresseDAO.findAddress(newAdresse));
-            u.setAdresse(newAdresse);
-            utilisateurDAO.create(u);
+            adresseDAO.create(userFromDB.getAdresse());
+            userFromDB.getAdresse().setId(adresseDAO.findAddress(userFromDB.getAdresse()));
+            if(u.getMotDePasse() != null || !u.getMotDePasse().isBlank()) {
+                userFromDB.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+                utilisateurDAO.updateUserPassword(userFromDB);
+                utilisateurDAO.update(userFromDB);
+            }else {
+                utilisateurDAO.update(userFromDB);
+            }
 
+        }
+        if(isValid && temp < 0){
+            if(u.getMotDePasse() != null && !u.getMotDePasse().isBlank()) {
+                userFromDB.setMotDePasse(passwordEncoder.encode(u.getMotDePasse()));
+                utilisateurDAO.updateUserPassword(userFromDB);
+                utilisateurDAO.update(userFromDB);
+            }else {
+                utilisateurDAO.update(userFromDB);
+            }
         } else {
             throw be;
         }

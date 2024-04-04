@@ -72,11 +72,11 @@ public class Enchere implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Enchere enchere = (Enchere) o;
-        return montant == enchere.montant && Objects.equals(date, enchere.date) && Objects.equals(articleAVendre, enchere.articleAVendre) && Objects.equals(acquereur, enchere.acquereur);
+        return Objects.equals(date, enchere.date)&& Objects.equals(acquereur, enchere.acquereur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, montant, articleAVendre, acquereur);
+        return Objects.hash(montant, acquereur);
     }
 }
