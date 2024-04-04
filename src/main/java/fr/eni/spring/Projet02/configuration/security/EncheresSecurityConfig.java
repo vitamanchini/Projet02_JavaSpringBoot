@@ -33,7 +33,7 @@ public class EncheresSecurityConfig {
                             .requestMatchers("/users/signin").permitAll()
                             .requestMatchers("/users/profile").authenticated()
                             .requestMatchers("/users/modify").permitAll()
-                            .requestMatchers("/users/modify/save-changes").permitAll()
+                            .requestMatchers("/users/modify/**").authenticated()
                             .requestMatchers("/css/**").permitAll()
                             .requestMatchers("/images/**").permitAll()
                             .anyRequest().authenticated();

@@ -44,51 +44,51 @@ public class AccueilController {
         return "index";
     }
 
-
-    public String accueilMesEncheresEnCours(@ModelAttribute("mesEncheresEnCours")ArticleAVendre mesEncheresEnCours, Model model, Principal p, Utilisateur u){
-        u = userService.read(mesEncheresEnCours.getId());
-        if (p!=u){
-            List<ArticleAVendre> mesEncheresEnCourss = accueilService.findAllMesEncheresEnCours(p,u);
-            model.addAttribute("mesEncheresEnCours", mesEncheresEnCourss);
-        }
-        return "index";
-    }
-
-
-    public String accueilMesEncheresRemportees(@ModelAttribute("mesEncheresRemportees")ArticleAVendre mesEncheresRemportees, Model model, Principal p, Utilisateur u){
-        u = userService.read(mesEncheresRemportees.getId());
-        if (p!=u){
-            List<ArticleAVendre> mesEncheresRemporteess = accueilService.findAllMesEncheresFinies(p,u);
-            model.addAttribute("mesEncheresRemportees", mesEncheresRemporteess);
-        }
-        return "index";
-    }
-
-
-    public String accueilMesVentesNonDebutees(@ModelAttribute("mesVentesNonDebutees")ArticleAVendre mesVentesNonDebutees, Model model, Principal p, Utilisateur u){
-        List<ArticleAVendre> mesVentesNonDebuteess = accueilService.findAllNotStarted();
-        model.addAttribute("mesVentesNonDebutees", mesVentesNonDebuteess);
-        return "index";
-    }
-
-
-    public String accueilMesVentesFinies(@ModelAttribute("mesVentesFinies")ArticleAVendre mesVentesFinies, Model model, Principal p, Utilisateur u){
-        List<ArticleAVendre> mesVentesFiniess = accueilService.findAllFinish();
-        model.addAttribute("mesVentesFinies", mesVentesFiniess);
-        return "index";
-    }
-
-
-    public String accueilMesVentesEnCours(@ModelAttribute("mesVentesEnCours")ArticleAVendre mesVentesEnCours, Model model, Principal p, Utilisateur u){
-        List<ArticleAVendre> mesVentesEnCourss = accueilService.findAllStarted();
-        model.addAttribute("mesVentesEnCours", mesVentesEnCourss);
-        return "index";
-    }
-
-    @GetMapping("/filter")
-    public void filterArticles(@ModelAttribute("utilisateurEnSession") Utilisateur u){
-
-    }
+//
+//    public String accueilMesEncheresEnCours(@ModelAttribute("mesEncheresEnCours")ArticleAVendre mesEncheresEnCours, Model model, Principal p, Utilisateur u){
+//        u = userService.read(mesEncheresEnCours.getId());
+//        if (p!=u){
+//            List<ArticleAVendre> mesEncheresEnCourss = accueilService.findAllMesEncheresEnCours(p,u);
+//            model.addAttribute("mesEncheresEnCours", mesEncheresEnCourss);
+//        }
+//        return "index";
+//    }
+//
+//
+//    public String accueilMesEncheresRemportees(@ModelAttribute("mesEncheresRemportees")ArticleAVendre mesEncheresRemportees, Model model, Principal p, Utilisateur u){
+//        u = userService.read(mesEncheresRemportees.getId());
+//        if (p!=u){
+//            List<ArticleAVendre> mesEncheresRemporteess = accueilService.findAllMesEncheresFinies(p,u);
+//            model.addAttribute("mesEncheresRemportees", mesEncheresRemporteess);
+//        }
+//        return "index";
+//    }
+//
+//
+//    public String accueilMesVentesNonDebutees(@ModelAttribute("mesVentesNonDebutees")ArticleAVendre mesVentesNonDebutees, Model model, Principal p, Utilisateur u){
+//        List<ArticleAVendre> mesVentesNonDebuteess = accueilService.findAllNotStarted();
+//        model.addAttribute("mesVentesNonDebutees", mesVentesNonDebuteess);
+//        return "index";
+//    }
+//
+//
+//    public String accueilMesVentesFinies(@ModelAttribute("mesVentesFinies")ArticleAVendre mesVentesFinies, Model model, Principal p, Utilisateur u){
+//        List<ArticleAVendre> mesVentesFiniess = accueilService.findAllFinish();
+//        model.addAttribute("mesVentesFinies", mesVentesFiniess);
+//        return "index";
+//    }
+//
+//
+//    public String accueilMesVentesEnCours(@ModelAttribute("mesVentesEnCours")ArticleAVendre mesVentesEnCours, Model model, Principal p, Utilisateur u){
+//        List<ArticleAVendre> mesVentesEnCourss = accueilService.findAllStarted();
+//        model.addAttribute("mesVentesEnCours", mesVentesEnCourss);
+//        return "index";
+//    }
+//
+//    @GetMapping("/filter")
+//    public void filterArticles(@ModelAttribute("utilisateurEnSession") Utilisateur u){
+//
+//    }
 
     @GetMapping("signin")
     public String signin(){

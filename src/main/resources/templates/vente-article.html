@@ -15,10 +15,62 @@
 
 <body>
 <main>
-    <form th:action="@{/vente}" method="post">
+    <form th:action="@{/vente}" method="post" data-th-object="${article}">
 
         <div th:if="${param.error}" data-th-text="#{vente.error}"></div>
         <div id="info-form">
+            <ul>
+                <li>
+                    <label class="label-field" for="nom" data-th-text="#{vente.article.nom}"></label>
+                    <input type="nom" name="nom" id="nom" data-th-field="*{nom}">
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.nom}"></label>
+                    <input name="article"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.description}"></label>
+                    <input name="description"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.categorie}"></label>
+                    <select data-th-field="${categories}">
+                        <option data-th-each="cat : ${categories}"
+                                data-th-value="${cat.id}"
+                                data-th-text="${cat.libelle}">
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.photo}"></label>
+                    <button type="submit" data-th-text="#{vente.article.upload}"></button>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.prix}"></label>
+                    <input name="prix" value="0" min="0"/>
+                </li>
+<!--                <li>-->
+<!--                    <label data-th-text="#{vente.article.date.debut}"></label>-->
+<!--                    <input type="date" id="start" name="article-start" data-th-field="*{dateDebut}"/>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <label data-th-text="#{vente.article.date.fin}"></label>-->
+<!--                    <input type="date" id="end" name="article-end" data-th-value="${dateFin}"/>-->
+<!--                </li>-->
+                <li>
+                    <label data-th-text="#{vente.article.adresse}"></label>
+                    <select>
+                        <option data-th-each="ad : ${adresses}"
+                                data-th-value="${ad.id}"
+                                data-th-text="${ad.complement} +', '+${ad.rue}+', '+${ad.codePostal}+' '+${ad.ville}">
+                        </option>
+                    </select>
+                </li>
+                <li>
+                    <button type="submit" data-th-text="#{vente.article.submit}"/>
+                    <button data-th-href="@{/accueil}" data-th-text="#{vente.article.annuler}"/>
+                </li>
+            </ul>
         </div>
     </form>
 </main>

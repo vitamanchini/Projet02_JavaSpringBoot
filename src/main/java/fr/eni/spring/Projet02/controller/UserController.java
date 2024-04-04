@@ -92,14 +92,18 @@ public class UserController {
             Utilisateur u2 = userService.read(p.getName());
             newbee.setPseudo(u2.getPseudo());
 
-            model.addAttribute("user", newbee);
+            model.addAttribute("user", u2);
+
+            System.out.println("Hi there/////////////////////");
                 return "page-modify-user-profile";
         }
 
     }
-    @PostMapping("/modify/save-changes")
+    @PostMapping("/modify")
     public String saveChangesUserProfile(Principal p,
-            Utilisateur u,
+            @Valid @ModelAttribute("user") Utilisateur u,
+//                                      @RequestParam("pseudo") String pseudo,
+
             BindingResult bindingResult
     ) {
 
@@ -107,18 +111,19 @@ public class UserController {
             return "redirect:/accueil";
 
         } else {
-            if (!bindingResult.hasErrors()) {
-                try {
+
+            System.out.println("Hi there2++++++++++++++++++++++");
+//                    u = userService.read(p.getName());
                     userService.updateUser(u);
                     return "redirect:/users/profile";
-                } catch (BusinessException be) {
-                    be.getClefsExternalisations().forEach(key -> {
-                        ObjectError objectError = new ObjectError("globalError", key);
-                        bindingResult.addError(objectError);
-                    });
-                }
-            }
-            return "redirect:/users/profile";
+//                } catch (BusinessException be) {
+//                    be.getClefsExternalisations().forEach(key -> {
+//                        ObjectError objectError = new ObjectError("globalError", key);
+//                        bindingResult.addError(objectError);
+//                    });
+//                }
+//            }
+//            return "redirect:/users/profile";
         }
     }
 }

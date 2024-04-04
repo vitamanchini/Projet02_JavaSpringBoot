@@ -26,7 +26,12 @@ public class AdresseDAOImpl implements AdresseDAO {
             "WHERE rue = :rue AND code_postal= :code_postal AND ville=:ville";
     private static final String UPDATE = "UPDATE complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse = :id";
     private static final String INSERT = "INSERT INTO ADRESSES (no_adresse,complement,rue,code_postal,ville) VALUES (:id,:complement,:rue,:codePostal,:ville)";
-    private static final String FIND_BY_ADDRESS = "SELECT a.no_adresse, a.complement,a.rue,a.code_postal,a.ville FROM ADRESSES a INNER JOIN UTILISATEURS u WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ? AND u.pseudo=:pseudo";
+    private static final String FIND_BY_ADDRESS = "SELECT no_adresse, complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse <6 " +
+            "UNION SELECT no_adresse, complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse=(" +
+            "SELECT a.no_adresse FROM ADRESSES a INNER JOIN UTILISATEURS u ON a.no_adresse=u.no_adresse WHERE u.pseudo=:pseudo)";
+//    private static final String FIND_BY_ADDRESS = "SELECT a.no_adresse, a.complement,a.rue,a.code_postal,a.ville " +
+//        "FROM ADRESSES a INNER JOIN UTILISATEURS u WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ? AND u.pseudo=:pseudo";
+
 
 
     @Autowired
@@ -56,9 +61,9 @@ public class AdresseDAOImpl implements AdresseDAO {
     }
 
     @Override
-    public List<Adresse> findByAddresses(Principal p) {
+    public List<Adresse> findByAddresses(String pseudo) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("no_adresse",p);
+        parameterSource.addValue("pseudo",pseudo);
         return jdbcTemplate.query(FIND_BY_ADDRESS,parameterSource,new AdresseRowMapper());
     }
 

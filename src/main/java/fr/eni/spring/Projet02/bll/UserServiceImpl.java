@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(Utilisateur u) {
         BusinessException be = new BusinessException();
         boolean isValid = true;

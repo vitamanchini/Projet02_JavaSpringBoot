@@ -15,7 +15,7 @@ public interface AdresseDAO {
     Adresse update(Adresse a);
 
 
-    List<Adresse> findByAddresses(Principal p);
+    List<Adresse> findByAddresses(String pseudo);
 
     int findAddressExists(Adresse a);
 }

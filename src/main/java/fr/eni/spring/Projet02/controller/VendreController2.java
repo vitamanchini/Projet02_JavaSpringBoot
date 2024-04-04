@@ -71,11 +71,11 @@ public class VendreController2 {
         return "vente-article";
     }
 
-    @ModelAttribute(name="adresses")
-    public List<Adresse> afficherAdresses(long idAdresse){
-        List<Adresse> l = adresseService.consulterAdressesVendeur(idAdresse);
-        return l;
-    }
+//    @ModelAttribute(name="adresses")
+//    public List<Adresse> afficherAdresses(long idAdresse){
+//        List<Adresse> l = adresseService.consulterAdressesVendeur(idAdresse);
+//        return l;
+//    }
 
     @ModelAttribute(name="dateDebut")
     public LocalDate dateDebutMin(LocalDate dateDebut){

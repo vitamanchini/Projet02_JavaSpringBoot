@@ -20,8 +20,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     private static final String FIND_BY_PSEUDO_MAINPAGE = "SELECT pseudo,nom,prenom FROM UTILISATEURS WHERE pseudo = :pseudo";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo,nom,prenom,email,telephone,mot_de_passe,credit,administrateur,no_adresse) " +
             "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :credit, :administrateur, :no_adresse)";
-    private static final String FIND_BY_EMAIL = "SELECT email FROM UTILISATEURS WHERE email = :email"; //count
-    private static final String FIND_BY_PSEUDO_BOOL = "SELECT pseudo FROM UTILISATEURS WHERE pseudo = :pseudo"; //count
+    private static final String FIND_BY_EMAIL = "SELECT COUNT(email) FROM UTILISATEURS WHERE email = :email";
+    private static final String FIND_BY_PSEUDO_BOOL = "SELECT COUNT(pseudo) FROM UTILISATEURS WHERE pseudo = :pseudo" ;
     private static final String FIND_BY_ADDRESS = "SELECT no_adresse FROM ADRESSES WHERE no_adresse IN (1,2,3,4,5) OR no_adresse = ?";
     private static final String FIND_USER = "SELECT pseudo,nom,prenom,email,telephone,mot_de_passe,no_adresse FROM UTILISATEURS " +
             "WHERE pseudo = :pseudo";

@@ -21,8 +21,8 @@ public class AdresseServiceImpl implements AdresseService {
     }
 
     @Override
-    public List<Adresse> consulterAdressesVendeur(Principal p) {
-        return adresseDAO.findByAddresses(p);
+    public List<Adresse> consulterAdressesVendeur(String pseudo) {
+        return adresseDAO.findByAddresses(pseudo);
     }
 
     public Adresse consulterUneAdresse(long id){
