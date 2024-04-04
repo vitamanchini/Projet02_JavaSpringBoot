@@ -55,7 +55,7 @@
         </article>
     </section>
     <section data-th-if="${#authorization.expression('isAuthenticated()')}">
-        <article data-th-if="openAuctions==1" data-th-each="item : ${articleAVendre}">
+        <article data-th-each="item : ${articleAVendre}">
             <img src="" alt="" srcset="">
             <div>
                 <h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>

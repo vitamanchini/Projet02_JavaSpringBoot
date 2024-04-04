@@ -21,7 +21,7 @@ import java.util.List;
 public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
 
     private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres,"+
-            "prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom, :dateDebut, :dateFin, :prixInitial, :pseudo,:categorie,:adresse)";
+            "prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom_article, :description, :photo; :date_debut_encheres, :date_fin_encheres, :prix_initial, :id_utilisateur, :no_categorie,:no_adresse_retrait)";
     private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+
             " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
     private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+

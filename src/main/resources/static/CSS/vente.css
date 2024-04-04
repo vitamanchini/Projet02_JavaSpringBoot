@@ -1,0 +1,19 @@
+form ul{
+    display: flex;
+    flex-direction: column;
+
+}
+
+form ul li{
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 500px) {
+    form ul li{
+        margin-bottom: 1rem;
+    }
+}

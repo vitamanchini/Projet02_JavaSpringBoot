@@ -29,11 +29,8 @@ public class ArticleAVendre implements Serializable {
     private int prixInitial;
     @NotNull
     private int prixVente;
-    @NotBlank
     private Adresse retrait;
-    @NotBlank
     private Categorie categorie;
-    @NotBlank
     private Utilisateur vendeur;
 
     public ArticleAVendre() {}

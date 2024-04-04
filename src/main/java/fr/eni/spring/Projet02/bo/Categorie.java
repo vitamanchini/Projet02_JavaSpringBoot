@@ -8,9 +8,7 @@ import java.util.Objects;
 
 public class Categorie implements Serializable {
     private static final long serialVersionUID = 1L;
-    @NotNull
     private long id;
-    @NotBlank
     private String libelle;
 
     public Categorie(long id, String libelle) {

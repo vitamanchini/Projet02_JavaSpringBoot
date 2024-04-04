@@ -15,7 +15,7 @@
 
 <body>
 <main>
-    <form th:action="@{/vente}" method="post" data-th-object="${article}">
+    <form th:action="@{${action}}" method="post" data-th-object="${article}">
 
         <div th:if="${param.error}" data-th-text="#{vente.error}"></div>
         <div id="info-form">
@@ -25,16 +25,12 @@
                     <input type="nom" name="nom" id="nom" data-th-field="*{nom}">
                 </li>
                 <li>
-                    <label data-th-text="#{vente.article.nom}"></label>
-                    <input name="article"/>
-                </li>
-                <li>
                     <label data-th-text="#{vente.article.description}"></label>
                     <input name="description"/>
                 </li>
                 <li>
                     <label data-th-text="#{vente.article.categorie}"></label>
-                    <select data-th-field="${categories}">
+                    <select data-th-object="${categories}">
                         <option data-th-each="cat : ${categories}"
                                 data-th-value="${cat.id}"
                                 data-th-text="${cat.libelle}">
@@ -49,14 +45,14 @@
                     <label data-th-text="#{vente.article.prix}"></label>
                     <input name="prix" value="0" min="0"/>
                 </li>
-<!--                <li>-->
-<!--                    <label data-th-text="#{vente.article.date.debut}"></label>-->
-<!--                    <input type="date" id="start" name="article-start" data-th-field="*{dateDebut}"/>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                    <label data-th-text="#{vente.article.date.fin}"></label>-->
-<!--                    <input type="date" id="end" name="article-end" data-th-value="${dateFin}"/>-->
-<!--                </li>-->
+                <li>
+                    <label data-th-text="#{vente.article.date.debut}"></label>
+                    <input type="date" id="start" name="article-start" data-th-min="${dateDebut}" data-th-value="${dateDebut}"/>
+                </li>
+                <li>
+                    <label data-th-text="#{vente.article.date.fin}"></label>
+                    <input type="date" id="end" name="article-end" data-th-min="${dateFin}" data-th-value="${dateFin}"/>
+                </li>
                 <li>
                     <label data-th-text="#{vente.article.adresse}"></label>
                     <select>
