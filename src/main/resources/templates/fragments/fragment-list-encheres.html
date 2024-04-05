@@ -18,7 +18,7 @@
     <section id="accueil-achat" data-th-if="${#authorization.expression('isAuthenticated()')}">
 
         <form action="" method="get">
-            <input type="radio" name="categorie" id="Achat" data-th-field="${achat}" checked data-th-text="#{accueil.bouton1}"/>
+            <input type="radio" name="categorie" id="Achat" checked data-th-text="#{accueil.bouton1}"/> <!-- //data-th-field="${achat}"-->
             <ul>
                 <li>
                     <input type="checkbox" name="openAuctions" checked data-th-text="#{accueil.encheres.ouvertes}"/>
@@ -31,7 +31,7 @@
                 </li>
             </ul>
 
-            <input type="radio" name="categorie" id="Vente" data-th-field="${achat}"  data-th-text="#{accueil.bouton2}"/>
+            <input type="radio" name="categorie" id="Vente"  data-th-text="#{accueil.bouton2}"/><!-- //data-th-field="${achat}"-->
             <ul>
                 <li>
                     <input type="checkbox" name="myOpenAuctions" data-th-text="#{accueil.ventes.ouvertes}"/>

@@ -6,7 +6,7 @@
         <ul>
             <li>
                 <label class="label-field" for="pseudo" data-th-text="#{page-new-user.nickname}"></label>
-                <input type="text" name="pseudo" id="pseudo" disabled data-th-field="*{pseudo}"></li>
+                <input type="text" name="pseudo" id="pseudo" data-th-disabled="${#authorization.expression('isAuthenticated()')}" data-th-field="*{pseudo}"></li>
             <div data-th-replace="~{fragments/errors/fragment-error :: frag-error('pseudo')}"></div>
             <li>
                 <label class="label-field" for="nom" data-th-text="#{page-new-user.surname}"></label>

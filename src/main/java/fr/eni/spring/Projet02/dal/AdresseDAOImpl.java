@@ -25,7 +25,7 @@ public class AdresseDAOImpl implements AdresseDAO {
     private static final String FIND_ADDRESS_EXISTS = "SELECT COUNT(no_adresse) FROM ADRESSES " +
             "WHERE rue = :rue AND code_postal= :code_postal AND ville=:ville";
     private static final String UPDATE = "UPDATE complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse = :id";
-    private static final String INSERT = "INSERT INTO ADRESSES (no_adresse,complement,rue,code_postal,ville) VALUES (:id,:complement,:rue,:codePostal,:ville)";
+    private static final String INSERT = "INSERT INTO ADRESSES (complement,rue,code_postal,ville) VALUES (:complement,:rue,:codePostal,:ville)";
     private static final String FIND_BY_ADDRESS = "SELECT no_adresse, complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse <6 " +
             "UNION SELECT no_adresse, complement,rue,code_postal,ville FROM ADRESSES WHERE no_adresse=(" +
             "SELECT a.no_adresse FROM ADRESSES a INNER JOIN UTILISATEURS u ON a.no_adresse=u.no_adresse WHERE u.pseudo=:pseudo)";
