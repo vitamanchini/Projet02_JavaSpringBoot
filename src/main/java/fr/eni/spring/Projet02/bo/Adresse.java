@@ -80,21 +80,13 @@ public class Adresse implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Adresse : ");
-        builder.append("id = ");
-        builder.append(id);
-        if(complement!=null){
-            builder.append("Complement = ");
-            builder.append(complement);
-        }
-        builder.append("rue = ");
-        builder.append(rue);
-        builder.append("code postal = ");
-        builder.append(codePostal);
-        builder.append("ville = ");
-        builder.append(ville);
-        return builder.toString();
+        return "Adresse{" +
+                "id=" + id +
+                ", complement='" + complement + '\'' +
+                ", rue='" + rue + '\'' +
+                ", codePostal='" + codePostal + '\'' +
+                ", ville='" + ville + '\'' +
+                '}';
     }
 
     @Override

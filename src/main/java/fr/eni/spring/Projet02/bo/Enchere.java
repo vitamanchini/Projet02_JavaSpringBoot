@@ -1,5 +1,6 @@
 package fr.eni.spring.Projet02.bo;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,14 +10,17 @@ import java.util.Objects;
 
 public class Enchere implements Serializable {
     private static final long serialVersionUID = 1L;
-    @NotNull
+//    @NotNull
     private LocalDateTime date;
-    @NotNull
+
     private int montant;
-    @NotBlank
+//    @NotNull
     private ArticleAVendre articleAVendre;
-    @NotBlank
+//    @NotNull
     private Utilisateur acquereur;
+
+    public Enchere() {
+    }
 
     public Enchere(LocalDateTime date, int montant, ArticleAVendre articleAVendre, Utilisateur acquereur) {
         this.date = date;

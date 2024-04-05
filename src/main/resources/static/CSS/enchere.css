@@ -1,0 +1,29 @@
+main{
+    display: flex;
+    justify-content: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    border: 2px solid tomato;
+}
+ul{
+    width: 500px;
+    margin: 15px;
+    padding: 15px;
+    border: 2px solid tomato;
+}
+
+
+li {
+    list-style: none;
+    padding: 10px;
+    display: flex;
+
+}
+label{
+    display: inline-flex;
+    width: 200px;
+}

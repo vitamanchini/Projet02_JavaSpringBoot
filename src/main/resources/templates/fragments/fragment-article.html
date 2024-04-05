@@ -1,34 +1,62 @@
-<form action="" method="post"data-th-object="${article}" data-th-fragment="fragm-article">
-    <section>
-        <label for="nom" data-th-text="#{page-article.form.name}"></label>
-        <input type="text" name="nom" id="nom">
-        <label for="description" data-th-text="#{page-article.form.decription}"></label>
-        <textarea name="description" id="description" cols="30" rows="10"></textarea>
-        <label for="categorie" data-th-text="#{page-article.form.category}"></label>
-        <select name="categorie" id="categorie" data-th-each="cat : ${categoryList}">
-            <option data-th-text="${cat.nom}" data-th-value="${cat.id}"></option>
-        </select>
-        <label for="photo" data-th-text="#{page-article.form.photo}"></label>
-        <input type="file" name="photo" id="photo">
-        <label for="prix" data-th-text="#{page-article.form.price}"></label>
-        <input type="number" name="prix" id="prix">
-        <label for="debutEnchere" data-th-text="#{page-article.form.start-date}"></label>
-        <input type="date" name="debutEnchere" id="debutEnchere">
-        <label for="finEnchere" data-th-text="#{page-article.form.end-date}"></label>
-        <input type="date" name="finEnchere" id="finEnchere">
+<form xmlns:th="http://www.thymeleaf.org" data-th-action="@{${action}}" method="post" data-th-object="${article}"
+      data-th-fragment="fragm-article(action)">
+        <ul>
+            <li>
+                <label data-th-text="#{page-article.form.name}"></label>
+                <p data-th-text="*{nom}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.decription}"></label>
+                <p data-th-text="*{description}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.category}"></label>
+                <p data-th-text="${article.categorie.libelle}"></p>
+            </li>
+            <li>
 
-        <form>
-            <label for="rue" data-th-text="#{page-article.form.street}"></label>
-            <input type="text" name="rue" id="rue">
-            <label for="code" data-th-text="#{page-article.form.code}"></label>
-            <input type="text" name="code" id="code">
-            <label for="ville" data-th-text="#{page-article.form.city}"></label>
-            <input type="text" name="ville" id="ville">
-        </form>
+                <label data-th-text="#{page-article.form.photo}"></label>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.price}"></label>
+                <p data-th-text="*{prixVente}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.price.initial}"></label>
+                <p data-th-text="*{prixInitial}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.start-date}"></label>
+                <p data-th-text="*{dateDebutEncheres}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.end-date}"></label>
+                <p data-th-text="*{dateFinEncheres}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.address}"></label>
+                <div>
+                <p data-th-text="${article.retrait.complement}"></p>
+                <p data-th-text="${article.retrait.rue}"></p>
+                <p data-th-text="${article.retrait.codePostal} + ' ' + ${article.retrait.ville}"></p>
+                </div>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.seller}"></label>
+                <p data-th-text="${article.vendeur.pseudo}"></p>
+            </li>
+            <li>
+                <label data-th-text="#{page-article.form.seller.phone}"></label>
+                <p data-th-text="${article.vendeur.telephone}"></p>
+            </li>
+            <li>
+                <label for="montant" data-th-text="#{page-article.form.my-offer}"></label>
+                <input type="number" name="montant" id="montant" data-th-field="${enchere.montant}">
+                <button data-th-text="#{page-article.form.button.bid}" type="submit"></button>
 
-    </section>
-
-    <button data-th-text="#{page-article.form.button.submit}" type="submit"></button>
-    <button data-th-text="#{page-article.form.button.reset}" type="reset"></button>
-    <button data-th-text="#{page-article.form.button.cancel}"></button>
+<!--                <div data-th-replace="~{fragments/errors/fragment-errors :: frag-errors}"></div>-->
+            </li>
+        </ul>
+<!--<button data-th-text="#{page-article.form.button.reset}" type="reset"></button>-->
+<!--<button data-th-text="#{page-article.form.button.cancel}"></button>-->
 </form>

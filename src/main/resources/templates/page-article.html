@@ -1,16 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org" data-th-replace="~{layouts/layout :: layout(titrePage=~{::title},
                                                                                     pageComponents=~{::main},
-                                                                                    additionalResources=~{})}">
+                                                                                    additionalResources=~{::#css})}">
 
 <head>
     <title data-th-text="#{page-sell-article.title}"></title>
+    <th:block id="css">
+        <link rel="stylesheet" data-th-href="@{/css/enchere.css}">
+    </th:block>
 </head>
 <body>
 <main>
-    <aside>
-        <img src="">
-    </aside>
-    <div data-th-replace="~{fragments/fragment-article :: fragm-article}"></div>
-    <aside></aside>
+    <div data-th-replace="~{fragments/fragment-article :: fragm-article(~{})}"></div>
 </main>
 </body>

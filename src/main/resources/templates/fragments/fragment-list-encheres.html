@@ -47,7 +47,7 @@
             <img src="" alt="" srcset="">
             <div>
 <!--                <a data-th-href="@{/enchere(id=${idArticle})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>-->
-                <a data-th-href="@{/enchere}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -58,7 +58,7 @@
         <article data-th-each="item : ${articleAVendre}">
             <img src="" alt="" srcset="">
             <div>
-                <h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -67,7 +67,7 @@
         <article data-th-if="openAuctionsForMe==1" data-th-each="item : ${mesEncheresEnCours}">
             <img data-th-if="item.acquereur==principal" src="" alt="" srcset="">
             <div>
-                <h3 data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -76,7 +76,7 @@
         <article data-th-if="finishedAuctionsForMe==1" data-th-each="item : ${mesEncheresRemportees}">
             <img data-th-if="item.acquereur==principal" src="" alt="" srcset="">
             <div>
-                <h3 data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-if="item.acquereur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -85,7 +85,7 @@
         <article data-th-if="myOpenAuctions==1" data-th-each="item : ${mesVentesEnCours}">
             <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
             <div>
-                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -94,7 +94,7 @@
         <article data-th-if="myAuctionsNotStarted==1" data-th-each="item : ${mesVentesNonDebutees}">
             <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
             <div>
-                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>
@@ -103,7 +103,7 @@
         <article data-th-if="myFinishedAuctions==1" data-th-each="item : ${mesVentesFinies}">
             <img data-th-if="item.vendeur==principal" src="" alt="" srcset="">
             <div>
-                <h3 data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3>
+                <a data-th-href="@{/enchere(id=${item.id})}"><h3 data-th-text="#{fragment-list-encheres.item.title} + ': ' + ${item.nom}"></h3></a>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.price} + ': ' + ${item.prixVente}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.final-date} + ': ' + ${item.dateFinEncheres}"></p>
                 <p data-th-if="item.vendeur==principal" data-th-text="#{fragment-list-encheres.item.seller} + ': ' + ${item.vendeur.prenom} +' ' + ${item.vendeur.nom}"></p>

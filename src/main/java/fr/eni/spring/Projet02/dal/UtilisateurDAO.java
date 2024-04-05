@@ -7,7 +7,7 @@ import java.security.Principal;
 public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
-    Utilisateur read(Principal p);
+//    Utilisateur read(Principal p);
 
     Utilisateur findByPseudo(String pseudo);
 

@@ -25,7 +25,6 @@ public class ArticleAVendre implements Serializable {
     private LocalDate dateFinEncheres;
     private int statu;
     @NotNull
-
     private int prixInitial;
     @NotNull
     private int prixVente;

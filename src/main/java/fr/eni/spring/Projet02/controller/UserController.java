@@ -66,6 +66,7 @@ public class UserController {
         } else {
             try {
                 u = userService.read(p.getName());
+                System.out.println(p);
                 model.addAttribute("user", u);
 
                     return "page-user-profile";

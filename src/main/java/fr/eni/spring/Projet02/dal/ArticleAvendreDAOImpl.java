@@ -23,7 +23,7 @@ public class ArticleAvendreDAOImpl implements ArticleAVendreDAO {
     private static final String INSERT = "INSERT INTO ARTICLES_A_VENDRE (nom_article, description, photo, date_debut_encheres, date_fin_encheres,"+
             "prix_initial, id_utilisateur, no_categorie, no_adresse_retrait) VALUES (:nom_article, :description, :photo; :date_debut_encheres, :date_fin_encheres, :prix_initial, :id_utilisateur, :no_categorie,:no_adresse_retrait)";
     private static final String FIND_BY_ID = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+
-            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :id";
+            " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE no_article= :no_article";
     private static final String FIND_ALL = "SELECT no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, prix_initial,"+
             " id_utilisateur, no_categorie, no_adresse_retrait FROM ARTICLES_A_VENDRE WHERE statu_enchere=1";
     private static final String FIND_ALL_FINISH = "SELECT a.no_article, a.nom_article, a.description, a.photo, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial,"+
