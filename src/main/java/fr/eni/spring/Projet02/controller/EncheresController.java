@@ -69,7 +69,7 @@ public class EncheresController {
                 });
             }
         }
-        return "page-article";
+        return "redirect:/enchere"+"?id=" + id;
     }
 
 }

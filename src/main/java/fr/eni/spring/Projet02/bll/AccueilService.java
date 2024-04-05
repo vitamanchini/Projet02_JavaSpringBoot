@@ -17,9 +17,9 @@ public interface AccueilService {
 
     List<ArticleAVendre> findAllNotStarted();
 
-    List<ArticleAVendre> findAllMesEncheresEnCours(Principal p, Utilisateur u);
+    List<ArticleAVendre> findAllMesEncheresEnCours(Utilisateur u);
 
-    List<ArticleAVendre> findAllMesEncheresFinies(Principal p, Utilisateur u);
+    List<ArticleAVendre> findAllMesEncheresFinies(Utilisateur u);
 
     List<ArticleAVendre> findAllStarted();
 

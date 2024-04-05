@@ -85,10 +85,11 @@ public class AccueilController {
 //        return "index";
 //    }
 //
-//    @GetMapping("/filter")
-//    public void filterArticles(@ModelAttribute("utilisateurEnSession") Utilisateur u){
-//
-//    }
+    @GetMapping("/filter")
+    public void filterArticles(){
+
+
+    }
 
     @GetMapping("signin")
     public String signin(){

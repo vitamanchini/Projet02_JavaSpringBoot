@@ -73,9 +73,8 @@ public class AccueilServiceImpl implements AccueilService{
         return null;
     }
     @Override
-    public List<ArticleAVendre> findAllMesEncheresEnCours(Principal p, Utilisateur u) {
-        u = utilisateurDAO.read(u.getPseudo());
-        if (p==u){
+    public List<ArticleAVendre> findAllMesEncheresEnCours(Utilisateur u) {
+
             try {
                 List<ArticleAVendre> articles = articleAVendreDAO.readAllMesEncheresEnCours();
                 if (articles != null) {
@@ -85,13 +84,12 @@ public class AccueilServiceImpl implements AccueilService{
             } catch (BusinessException be){
                 be.add(BusinessCode.ERROR_ARTICLES_LOAD);
             }
-        }
 
         return null;
     }
     @Override
-    public List<ArticleAVendre> findAllMesEncheresFinies(Principal p, Utilisateur u) {
-        u = utilisateurDAO.read(u.getPseudo());
+    public List<ArticleAVendre> findAllMesEncheresFinies(Utilisateur u) {
+
         try {
             List<ArticleAVendre> articles = articleAVendreDAO.readAllMesEncheresFinies();
             if (articles != null) {
